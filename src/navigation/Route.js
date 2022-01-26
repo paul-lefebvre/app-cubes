@@ -7,22 +7,7 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator, TransitionPresets} from 'react-navigation-stack';
 
 // VIEWS
-import Bluetooth from '../views/bluetooth/Bluetooth';
-import ForgotPassword from '../views/start/ForgotPassword';
-import ForgotCodeReset from '../views/start/ForgotCodeReset';
-import ForgotNewPassword from '../views/start/ForgotNewPassword';
-import SuccessSignUp from '../views/start/SuccessSignUp';
-import IndexStart from '../views/start/IndexStart';
-import Start from '../views/session/Start';
-import Progress from '../views/session/Progress';
-import Home from '../views/user/Home';
-import Scanner from '../views/bluetooth/Scanner';
-import Profil from '../views/user/Profil';
-import History from '../views/user/History';
-import Report from '../views/user/Report';
-import CreateReport from '../views/user/CreateReport';
-import DetailReport from '../views/user/DetailReport';
-import Bill from '../views/user/Bill';
+import Welcome from '../views/boarding/Welcome';
 
 // RES
 import TitleApp from '../components/titles/TItleApp';
@@ -37,24 +22,20 @@ import {faQuestionCircle} from '@fortawesome/free-regular-svg-icons';
 
 /*
  *
- *  LOGIN/SIGNUP/FORGOT FLOW
+ *  BOARDING FLOW
  *
  */
-const LoginStackNavigator = createStackNavigator({
-  Start: {
-    screen: IndexStart,
+const BoardingStackNavigator = createStackNavigator({
+  WelcomePage: {
+    screen: Welcome,
     navigationOptions: {
-      title: (
-        <TitleApp
-          indexPage={0}
-          isNavigationEnabled={true}
-          onlyTitleApp={false}
-        />
+      headerTitle: () => (
+        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
       ),
       gestureDirection: 'horizontal',
       ...TransitionPresets.SlideFromRightIOS,
       animation: 'fade',
-      headerShown: true,
+      headerShown: false,
       headerStyle: {
         height: 180,
       },
@@ -65,7 +46,7 @@ const LoginStackNavigator = createStackNavigator({
     },
   },
   SuccessSignUp: {
-    screen: SuccessSignUp,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -84,7 +65,7 @@ const LoginStackNavigator = createStackNavigator({
     },
   },
   ForgotPassword: {
-    screen: ForgotPassword,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -103,7 +84,7 @@ const LoginStackNavigator = createStackNavigator({
     },
   },
   ForgotCodeReset: {
-    screen: ForgotCodeReset,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -122,7 +103,7 @@ const LoginStackNavigator = createStackNavigator({
     },
   },
   ForgotNewPassword: {
-    screen: ForgotNewPassword,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -149,7 +130,7 @@ const LoginStackNavigator = createStackNavigator({
  */
 const HomeStackNavigator = createStackNavigator({
   Home: {
-    screen: Home,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -167,7 +148,7 @@ const HomeStackNavigator = createStackNavigator({
     },
   },
   Bluetooth: {
-    screen: Bluetooth,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -186,7 +167,7 @@ const HomeStackNavigator = createStackNavigator({
     },
   },
   Scanner: {
-    screen: Scanner,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -205,7 +186,7 @@ const HomeStackNavigator = createStackNavigator({
     },
   },
   SessionStart: {
-    screen: Start,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -224,7 +205,7 @@ const HomeStackNavigator = createStackNavigator({
     },
   },
   SessionProgress: {
-    screen: Progress,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -253,7 +234,7 @@ const HomeStackNavigator = createStackNavigator({
  */
 const ProfilStackNavigator = createStackNavigator({
   Profil: {
-    screen: Profil,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -271,7 +252,7 @@ const ProfilStackNavigator = createStackNavigator({
     },
   },
   History: {
-    screen: History,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -290,7 +271,7 @@ const ProfilStackNavigator = createStackNavigator({
     },
   },
   Bill: {
-    screen: Bill,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -317,7 +298,7 @@ const ProfilStackNavigator = createStackNavigator({
  */
 const ReportStackNavigator = createStackNavigator({
   Report: {
-    screen: Report,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -335,7 +316,7 @@ const ReportStackNavigator = createStackNavigator({
     },
   },
   CreateReport: {
-    screen: CreateReport,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -354,7 +335,7 @@ const ReportStackNavigator = createStackNavigator({
     },
   },
   DetailReport: {
-    screen: DetailReport,
+    screen: Welcome,
     navigationOptions: {
       headerTitle: () => (
         <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
@@ -497,8 +478,9 @@ const FullStack = createStackNavigator({
 });
 
 const App = createSwitchNavigator({
-  Login: LoginStackNavigator,
-  Home: FullStack,
+  Boarding: BoardingStackNavigator,
+  //Login: LoginStackNavigator,
+  //Home: HomeStackNavigator,
 });
 
 export default createAppContainer(App);

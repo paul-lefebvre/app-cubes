@@ -2,6 +2,7 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import {StatusBar, LogBox, Platform} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 //DEBUG
 import {DEBUG} from './src/config/utils';
@@ -17,6 +18,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentDidMount() {
+    SplashScreen.hide();
   }
 
   render() {
