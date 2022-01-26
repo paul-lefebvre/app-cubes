@@ -1,4 +1,4 @@
-package com.antadis.borneapp.generated;
+package com.cubes.linksforcitizens.generated;
 
 import java.util.Arrays;
 import java.util.List;

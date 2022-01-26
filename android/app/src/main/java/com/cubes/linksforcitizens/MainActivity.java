@@ -1,4 +1,4 @@
-package com.antadis.borneapp;
+package com.cubes.linksforcitizens;
 
 import android.os.Bundle;
 
