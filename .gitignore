@@ -1,6 +1,12 @@
+node_modules
+__tests__
+.vscode
+
 # OSX
 #
 .DS_Store
+
+
 
 # Xcode
 #
@@ -20,6 +26,7 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
+project.xcworkspace
 
 # Android/IntelliJ
 #
@@ -28,7 +35,6 @@ build/
 .gradle
 local.properties
 *.iml
-*.hprof
 
 # node.js
 #
@@ -40,7 +46,6 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
-!debug.keystore
 
 # fastlane
 #
@@ -53,8 +58,12 @@ buck-out/
 */fastlane/Preview.html
 */fastlane/screenshots
 
-# Bundle artifact
+# Bundle artifacts
 *.jsbundle
 
 # CocoaPods
 /ios/Pods/
+android/app/src/main/assets/index.android.bundle
+
+#VS Code
+/.vscode/
