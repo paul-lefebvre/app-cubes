@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<resources>
+  <!-- ICON COLORS -->
+  <color name="colorPrimary">#fff0</color>
+  <color name="iconBackground">#0000</color>
+
+  <!-- SPLASHSCREEN COLORS -->
+  <color name="background">#FFFFFF</color>
+  <color name="primary_dark">#000</color>
+
+</resources>

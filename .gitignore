@@ -6,7 +6,8 @@ __tests__
 #
 .DS_Store
 
-
+#java pid
+android/java_pid**
 
 # Xcode
 #

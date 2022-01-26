@@ -1,0 +1,77 @@
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+platform :ios, '10.0'
+
+def find_and_replace(dir, findstr, replacestr)
+  Dir[dir].each do |name|
+      text = File.read(name)
+      replace = text.gsub(findstr,replacestr)
+
+      if text != replace
+          puts "Fix: " + name
+          system("chmod +w " + name)
+          File.open(name, "w") { |file| file.puts replace }
+          STDOUT.flush
+      end
+  end
+  Dir[dir + '*/'].each(&method(:find_and_replace))
+end
+
+target 'borneapp' do
+  config = use_native_modules!
+
+  use_react_native!(
+    :path => config["reactNativePath"],
+    :hermes_enabled => false
+  )
+
+
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency/Permission-AppTrackingTransparency.podspec"
+  pod 'Permission-BluetoothPeripheral', :path => "#{permissions_path}/BluetoothPeripheral/Permission-BluetoothPeripheral.podspec"
+  pod 'Permission-Calendars', :path => "#{permissions_path}/Calendars/Permission-Calendars.podspec"
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera/Permission-Camera.podspec"
+  pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts/Permission-Contacts.podspec"
+  pod 'Permission-FaceID', :path => "#{permissions_path}/FaceID/Permission-FaceID.podspec"
+  pod 'Permission-LocationAccuracy', :path => "#{permissions_path}/LocationAccuracy/Permission-LocationAccuracy.podspec"
+  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways/Permission-LocationAlways.podspec"
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
+  pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary/Permission-MediaLibrary.podspec"
+  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone/Permission-Microphone.podspec"
+  pod 'Permission-Motion', :path => "#{permissions_path}/Motion/Permission-Motion.podspec"
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications/Permission-Notifications.podspec"
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary/Permission-PhotoLibrary.podspec"
+  pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly/Permission-PhotoLibraryAddOnly.podspec"
+  pod 'Permission-Reminders', :path => "#{permissions_path}/Reminders/Permission-Reminders.podspec"
+  pod 'Permission-Siri', :path => "#{permissions_path}/Siri/Permission-Siri.podspec"
+  pod 'Permission-SpeechRecognition', :path => "#{permissions_path}/SpeechRecognition/Permission-SpeechRecognition.podspec"
+  pod 'Permission-StoreKit', :path => "#{permissions_path}/StoreKit/Permission-StoreKit.podspec"
+  # permissions_path = '../node_modules/react-native-permissions/ios'
+  # pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts/Permission-Contacts.podspec"
+  # pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone/Permission-Microphone.podspec"
+  # pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications/Permission-Notifications.podspec"
+
+  pod 'react-native-ble-plx', :path => '../node_modules/react-native-ble-plx'
+
+  #pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app'
+
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
+  pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
+
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
+  #post_install do |installer|
+  #  find_and_replace("Pods/RCT-Folly/folly/synchronization/DistributedMutex-inl.h",
+  #  "  atomic_notify_one(state);", "  folly::atomic_notify_one(state);")
+  #end
+end
