@@ -132,7 +132,7 @@ class CreateReport extends React.Component {
         <Infos
           displayInfos={true}
           text={
-            "Faites nous part d'un problème rencontré lors de l'utilisation de YouBorne. Notre support vous répondra dans les plus brefs délais."
+            "Faites nous part d'un problème rencontré lors de l'utilisation de Links For Citizens. Notre support vous répondra dans les plus brefs délais."
           }
         />
         <Space size={30} />
