@@ -1,0 +1,86 @@
+import {StyleSheet} from 'react-native';
+import * as Color from '../../../components/config/color';
+
+export default StyleSheet.create({
+  skipBtn: {
+    position: 'absolute',
+    zIndex: 1,
+    right: '6%',
+    top: '9%',
+  },
+  textSkipBtn: {
+    fontFamily: 'Montserrat-Medium',
+    fontSize: 12,
+    color: 'black',
+  },
+  paginationStyle: {
+    top: '9%',
+    left: '6%',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  dot: {},
+  activeDot: {},
+  imgSlider: {
+    flex: 0.75,
+    width: '100%',
+    resizeMode: 'cover',
+  },
+  titleContainer: {
+    paddingTop: 15,
+    paddingHorizontal: 30,
+    width: '90%',
+    height: 180,
+    bottom: '15%',
+    right: 0,
+    position: 'absolute',
+    backgroundColor: Color.secondColorBackground,
+    borderBottomLeftRadius: 90,
+    borderTopLeftRadius: 9,
+  },
+  titleText: {
+    fontSize: 36,
+    fontFamily: 'Montserrat-SemiBold',
+    color: 'white',
+  },
+  subtitleText: {
+    fontFamily: 'Montserrat-Light',
+    fontSize: 15,
+    textAlign: 'left',
+    color: 'white',
+  },
+  btnText: {
+    fontFamily: 'Montserrat-Light',
+    fontSize: 21,
+    textAlign: 'left',
+    color: 'white',
+  },
+  lineSeparator: {
+    marginTop: 9,
+    marginVertical: 3,
+    width: '36%',
+    backgroundColor: 'white',
+    height: 0.6,
+  },
+  buttonStart: {
+    position: 'absolute',
+    width: '60%',
+    height: 81,
+    right: 0,
+    bottom: '8%',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    flexDirection: 'row',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    borderTopLeftRadius: 90,
+    borderBottomLeftRadius: 90,
+    backgroundColor: Color.thirdColor,
+  },
+});

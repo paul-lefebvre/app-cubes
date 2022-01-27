@@ -25,7 +25,7 @@ class App extends React.Component {
   }
 
   render() {
-    StatusBar.setBarStyle('dark-content', false);
+    StatusBar.setBarStyle('light-content', true);
 
     if (Platform.OS === 'android') {
       StatusBar.setBackgroundColor('transparent', false);

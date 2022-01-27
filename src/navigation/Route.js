@@ -8,6 +8,8 @@ import {createStackNavigator, TransitionPresets} from 'react-navigation-stack';
 
 // VIEWS
 import Welcome from '../views/boarding/Welcome';
+import Discover from '../views/boarding/Discover';
+import SignUp from '../views/boarding/SignUp';
 
 // RES
 import TitleApp from '../components/titles/TItleApp';
@@ -45,22 +47,23 @@ const BoardingStackNavigator = createStackNavigator({
       gestureEnabled: true,
     },
   },
-  SuccessSignUp: {
-    screen: Welcome,
+  DiscoverPage: {
+    screen: Discover,
     navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerTitleAlign: 'center',
       gestureDirection: 'horizontal',
       ...TransitionPresets.SlideFromRightIOS,
       animation: 'fade',
-      headerLeft: () => null,
-      headerStyle: {
-        minHeight: 75,
-        height: 90,
-      },
-      headerShown: true,
+      headerShown: false,
+      gestureEnabled: false,
+    },
+  },
+  SignUpPage: {
+    screen: SignUp,
+    navigationOptions: {
+      gestureDirection: 'horizontal',
+      ...TransitionPresets.SlideFromRightIOS,
+      animation: 'fade',
+      headerShown: false,
       gestureEnabled: false,
     },
   },

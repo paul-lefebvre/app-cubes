@@ -2,6 +2,9 @@
 import React from 'react';
 import {View, TextInput, TouchableOpacity} from 'react-native';
 
+// OTHER  COMPONENTS
+import * as Color from '../config/color';
+
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 
@@ -35,21 +38,27 @@ class InputText extends React.Component {
       <View
         style={{justifyContent: 'center', flexDirection: 'row', width: '90%'}}>
         <TextInput
-          style={[
-            {
-              flex: 1,
-              height: this.state.isTextInput === true ? 145 : 60,
-              textAlignVertical: this.state.isTextInput ? 'top' : 'center',
-              fontSize: 15,
-              borderWidth: 1,
-              paddingLeft: 12,
-              borderRadius: 12,
-              color: 'gray',
-            },
-            this.props.wrong != null
-              ? {borderColor: this.state.wrong ? 'red' : 'lightgreen'}
-              : {borderColor: 'lightgray'},
-          ]}
+          style={
+            this.props.style
+              ? this.props.style
+              : [
+                  {
+                    flex: 1,
+                    height: this.state.isTextInput === true ? 145 : 60,
+                    textAlignVertical: this.state.isTextInput
+                      ? 'top'
+                      : 'center',
+                    fontSize: 15,
+                    borderWidth: 1.2,
+                    paddingLeft: 12,
+                    borderRadius: 12,
+                    color: 'gray',
+                  },
+                  this.props.wrong != null
+                    ? {borderColor: this.state.wrong ? 'red' : 'lightgreen'}
+                    : {borderColor: Color.thirdColorBackground},
+                ]
+          }
           onChangeText={content => this.props.onValueChange(content)}
           secureTextEntry={this.state.secureInput}
           autoCapitalize={'none'}
@@ -59,7 +68,11 @@ class InputText extends React.Component {
           autoCompleteType={this.state.isMailInput ? 'email' : 'off'}
           placeholder={this.props.placeholder}
           value={this.state.content}
-          placeholderTextColor={'lightgrey'}
+          placeholderTextColor={
+            this.props.placeHolderColor
+              ? this.props.placeHolderColor
+              : 'lightgrey'
+          }
           keyboardType={
             this.state.isNumberInput
               ? 'numeric'
