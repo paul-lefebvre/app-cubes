@@ -14,11 +14,13 @@ import styles from './style';
 //PACKAGES
 import Swiper from 'react-native-swiper';
 
+//FCTs
+import register from '../../../functions/register';
+
 //LAYOUTS
 import * as Color from '../../../components/config/color';
 import Container from '../../../components/layout/Container';
 import ButtonLarge from '../../../components/buttons/ButtonLarge';
-import ButtonIcon from '../../../components/buttons/ButtonIcon';
 import Space from '../../../components/layout/Space';
 import InputText from '../../../components/inputs/InputText';
 
@@ -162,9 +164,19 @@ class SignUp extends React.Component {
    */
   async nextStep() {
     if (this.state.indexCard === 1) {
-      console.log('register');
+      const firstname = this.props.navigation.state.params.firstname;
+      const lastname = this.props.navigation.state.params.lastname;
+      const user = {
+        pseudo: 'pseudoTest',
+        firstname: firstname ? firstname : '',
+        lastname: lastname ? lastname : '',
+        mail: this.state.mail,
+        password: this.state.password,
+      };
+      const response = await register(user);
+      console.log(response);
     } else if (this.state.indexCard === 0) {
-      console.log('login');
+      this.props.navigation.navigate('Home');
     }
   }
 
@@ -244,7 +256,7 @@ class SignUp extends React.Component {
 
           <Space size={90} />
           <ButtonLarge
-            style={{ position: 'absolute', bottom: '9%' }}
+            style={{position: 'absolute', bottom: '9%'}}
             onPress={this.nextStep.bind(this)}
             title={'CONTINUER'}
           />

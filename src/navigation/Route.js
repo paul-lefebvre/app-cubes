@@ -11,16 +11,44 @@ import Welcome from '../views/boarding/Welcome';
 import Discover from '../views/boarding/Discover';
 import SignUp from '../views/boarding/SignUp';
 
+import TimeLine from '../views/app/TimeLine';
+import Home from '../views/app/Home';
+import Profil from '../views/app/Profil';
+
 // RES
 import TitleApp from '../components/titles/TItleApp';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faEnvelope,
-  faEnvelopeOpen,
-  faQrcode,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons';
-import {faQuestionCircle} from '@fortawesome/free-regular-svg-icons';
+import {faHome, faStream, faUser} from '@fortawesome/free-solid-svg-icons';
+
+import * as Color from '../components/config/color';
+
+/**
+ * DEFAULT OPTIONS NAV APP
+ */
+const defaultNav = {
+  headerStyle: {
+    height: '27%',
+    backgroundColor: Color.secondColorBackground,
+  },
+  headerTitle: () => null,
+  headerTitleAlign: 'center',
+  gestureDirection: 'horizontal',
+  ...TransitionPresets.SlideFromRightIOS,
+  animation: 'fade',
+  headerShown: true,
+  gestureEnabled: false,
+};
+
+/* WITHOUT HEADER */
+const noHeaderNav = {
+  headerTitle: () => null,
+  headerTitleAlign: 'center',
+  gestureDirection: 'horizontal',
+  ...TransitionPresets.SlideFromRightIOS,
+  animation: 'fade',
+  headerShown: false,
+  gestureEnabled: false,
+};
 
 /*
  *
@@ -30,22 +58,7 @@ import {faQuestionCircle} from '@fortawesome/free-regular-svg-icons';
 const BoardingStackNavigator = createStackNavigator({
   WelcomePage: {
     screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerShown: false,
-      headerStyle: {
-        height: 180,
-      },
-      headerLeft: () => null,
-      headerTitleAlign: 'center',
-      headerTintColor: 'white',
-      gestureEnabled: true,
-    },
+    navigationOptions: noHeaderNav,
   },
   DiscoverPage: {
     screen: Discover,
@@ -59,14 +72,9 @@ const BoardingStackNavigator = createStackNavigator({
   },
   SignUpPage: {
     screen: SignUp,
-    navigationOptions: {
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerShown: false,
-      gestureEnabled: false,
-    },
+    navigationOptions: noHeaderNav,
   },
+  /*
   ForgotPassword: {
     screen: Welcome,
     navigationOptions: {
@@ -95,9 +103,19 @@ const BoardingStackNavigator = createStackNavigator({
       headerTitleAlign: 'center',
       gestureDirection: 'horizontal',
       ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
+      animation: 'fade',    navigationOptions: {
       headerStyle: {
-        minHeight: 75,
+        height: '27%',
+        backgroundColor: Color.secondColorBackground,
+      },
+      headerTitle: () => null,
+      headerTitleAlign: 'center',
+      gestureDirection: 'horizontal',
+      ...TransitionPresets.SlideFromRightIOS,
+      animation: 'fade',
+      headerShown: true,
+      gestureEnabled: false,
+    },
         height: 90,
       },
       headerShown: true,
@@ -123,33 +141,20 @@ const BoardingStackNavigator = createStackNavigator({
       gestureEnabled: true,
       headerBackTitle: 'Retour',
     },
-  },
+  },*/
 });
 
 /*
  *
- *  HOME FLOW
+ *  HOME APP FLOW
  *
  */
-const HomeStackNavigator = createStackNavigator({
-  Home: {
-    screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerStyle: {
-        minHeight: 75,
-        height: 90,
-      },
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerShown: true,
-      gestureEnabled: false,
-    },
+const TimeLineStackNavigator = createStackNavigator({
+  TimeLine: {
+    screen: TimeLine,
+    navigationOptions: defaultNav,
   },
+  /*
   Bluetooth: {
     screen: Welcome,
     navigationOptions: {
@@ -168,66 +173,7 @@ const HomeStackNavigator = createStackNavigator({
       gestureEnabled: true,
       headerBackTitle: 'Retour',
     },
-  },
-  Scanner: {
-    screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerStyle: {
-        minHeight: 75,
-        height: 90,
-      },
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerShown: true,
-      headerBackTitle: 'Retour',
-      gestureEnabled: true,
-    },
-  },
-  SessionStart: {
-    screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerStyle: {
-        minHeight: 75,
-        height: 90,
-      },
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerShown: true,
-      headerBackTitle: 'Retour',
-      gestureEnabled: true,
-    },
-  },
-  SessionProgress: {
-    screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerStyle: {
-        minHeight: 75,
-        height: 90,
-      },
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerShown: true,
-      gestureEnabled: false,
-      headerLeft: () => {
-        null;
-      },
-    },
-  },
+  },*/
 });
 
 /*
@@ -238,21 +184,7 @@ const HomeStackNavigator = createStackNavigator({
 const ProfilStackNavigator = createStackNavigator({
   Profil: {
     screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerShown: true,
-      headerStyle: {
-        minHeight: 75,
-        height: 90,
-      },
-      gestureEnabled: true,
-    },
+    navigationOptions: defaultNav,
   },
   History: {
     screen: Welcome,
@@ -296,58 +228,23 @@ const ProfilStackNavigator = createStackNavigator({
 
 /*
  *
- *  REPORT FLOW
+ *  ACTIVITY FLOW
  *
  */
-const ReportStackNavigator = createStackNavigator({
-  Report: {
+const ActivityStackNavigator = createStackNavigator({
+  Activity: {
     screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerShown: true,
-      headerStyle: {
-        minHeight: 75,
-        height: 90,
-      },
-      gestureEnabled: true,
-    },
+    navigationOptions: defaultNav,
   },
-  CreateReport: {
+  DetailActivity: {
     screen: Welcome,
     navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
+      headerTitle: () => null,
       headerTitleAlign: 'center',
       gestureDirection: 'horizontal',
       ...TransitionPresets.SlideFromRightIOS,
       animation: 'fade',
-      headerShown: true,
-      headerBackTitle: 'Retour',
-      headerStyle: {
-        minHeight: 75,
-        height: 90,
-      },
-      gestureEnabled: true,
-    },
-  },
-  DetailReport: {
-    screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerShown: true,
+      headerShown: false,
       headerBackTitle: 'Retour',
       headerStyle: {
         minHeight: 75,
@@ -366,60 +263,27 @@ const ReportStackNavigator = createStackNavigator({
 
 const TabNavigator = createBottomTabNavigator(
   {
+    TimeLine: {
+      screen: createStackNavigator(
+        {TimeLineStackNavigator},
+        {
+          defaultNavigationOptions: noHeaderNav,
+        },
+      ),
+    },
+    Activity: {
+      screen: createStackNavigator(
+        {ActivityStackNavigator},
+        {
+          defaultNavigationOptions: noHeaderNav,
+        },
+      ),
+    },
     Profil: {
       screen: createStackNavigator(
         {ProfilStackNavigator},
         {
-          defaultNavigationOptions: {
-            headerTitleAlign: 'center',
-            gestureDirection: 'horizontal',
-            ...TransitionPresets.SlideFromRightIOS,
-            animation: 'fade',
-            headerShown: false,
-            headerStyle: {
-              minHeight: 75,
-              height: 90,
-            },
-            gestureEnabled: true,
-          },
-        },
-      ),
-    },
-    Home: {
-      screen: createStackNavigator(
-        {HomeStackNavigator},
-        {
-          defaultNavigationOptions: {
-            headerTitleAlign: 'center',
-            gestureDirection: 'horizontal',
-            ...TransitionPresets.SlideFromRightIOS,
-            animation: 'fade',
-            headerStyle: {
-              minHeight: 75,
-              height: 90,
-            },
-            headerShown: false,
-            gestureEnabled: true,
-          },
-        },
-      ),
-    },
-    Report: {
-      screen: createStackNavigator(
-        {ReportStackNavigator},
-        {
-          defaultNavigationOptions: {
-            headerTitleAlign: 'center',
-            gestureDirection: 'horizontal',
-            ...TransitionPresets.SlideFromRightIOS,
-            animation: 'fade',
-            headerStyle: {
-              minHeight: 75,
-              height: 90,
-            },
-            headerShown: false,
-            gestureEnabled: true,
-          },
+          defaultNavigationOptions: noHeaderNav,
         },
       ),
     },
@@ -430,24 +294,21 @@ const TabNavigator = createBottomTabNavigator(
         const {routeName} = navigation.state;
         let color;
         let iconName;
-        if (routeName === 'Home') {
-          iconName = focused ? faQrcode : faQrcode;
+        if (routeName === 'TimeLine') {
+          iconName = focused ? faStream : faStream;
           color = focused ? 'black' : 'grey';
         } else if (routeName === 'Profil') {
           iconName = focused ? faUser : faUser;
           color = focused ? 'black' : 'grey';
-        } else if (routeName === 'Report') {
-          iconName = focused ? faEnvelopeOpen : faEnvelope;
-          color = focused ? 'black' : 'grey';
-        } else if (routeName === 'Help') {
-          iconName = focused ? faQuestionCircle : faQuestionCircle;
+        } else if (routeName === 'Activity') {
+          iconName = focused ? faHome : faHome;
           color = focused ? 'black' : 'grey';
         }
         return (
           <FontAwesomeIcon
             icon={iconName}
             color={color}
-            size={30}
+            size={27}
             style={{resizeMode: 'contain'}}
           />
         );
@@ -457,33 +318,13 @@ const TabNavigator = createBottomTabNavigator(
         showIcon: true,
       },
     }),
-    initialRouteName: 'Home',
+    initialRouteName: 'TimeLine',
   },
 );
 
-/*
- *
- *  STACKS HOME
- *
- */
-
-const FullStack = createStackNavigator({
-  Tabs: {
-    screen: TabNavigator,
-    navigationOptions: {
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerShown: false,
-      gestureEnabled: true,
-    },
-  },
-});
-
 const App = createSwitchNavigator({
   Boarding: BoardingStackNavigator,
-  //Login: LoginStackNavigator,
-  //Home: HomeStackNavigator,
+  Home: TabNavigator,
 });
 
 export default createAppContainer(App);

@@ -4,8 +4,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 const appName = 'Links For Citizens';
 const versionApp = '0.0.1';
 
-let DEBUG_API_URL = 'http://linksforcitizens.local:3000';
-let API_URL = 'http://pn.antadis.net';
+let DEBUG_API_URL = 'http://192.168.1.29:3000';
+let API_URL = 'http://localhost:3000';
 
 const DEBUG = true;
 const NEED_PROD = false;
@@ -19,7 +19,7 @@ if (DEBUG && NEED_PROD) {
   API_URL = DEBUG_API_URL ? DEBUG_API_URL : 'http://localhost:3000'; //LOCAL
 } else if (DEBUG && !NEED_PROD) {
   API_URL = DEBUG_API_URL ? DEBUG_API_URL : 'http://localhost:3000'; //LOCAL
-  console.log('> DEBUG MODE ENABLED');
+  console.log('> DEBUG MODE ENABLED | API URL -> ', API_URL);
 }
 
 /**********************************
