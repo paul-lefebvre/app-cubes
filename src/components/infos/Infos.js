@@ -22,7 +22,7 @@ export default class Infos extends React.Component {
     return (
       <>
         {state.displayInfos ? (
-          <View style={[styles.infoNetwork, this.props.style]}>
+          <View style={[styles.container, this.props.style]}>
             <FontAwesomeIcon
               icon={state.isAnError ? faExclamationTriangle : faInfoCircle}
               size={30}
@@ -39,7 +39,7 @@ export default class Infos extends React.Component {
 // export default CustomAlertComponent;
 
 const styles = StyleSheet.create({
-  infoNetwork: {
+  container: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',

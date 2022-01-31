@@ -12,11 +12,9 @@ import Discover from '../views/boarding/Discover';
 import SignUp from '../views/boarding/SignUp';
 
 import TimeLine from '../views/app/TimeLine';
-import Home from '../views/app/Home';
-import Profil from '../views/app/Profil';
+import Surround from '../views/app/Surround';
 
 // RES
-import TitleApp from '../components/titles/TItleApp';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHome, faStream, faUser} from '@fortawesome/free-solid-svg-icons';
 
@@ -27,14 +25,16 @@ import * as Color from '../components/config/color';
  */
 const defaultNav = {
   headerStyle: {
-    height: '27%',
+    height: 40,
+    borderWidth: 0,
     backgroundColor: Color.secondColorBackground,
   },
   headerTitle: () => null,
+  headerLeft: () => null,
   headerTitleAlign: 'center',
   gestureDirection: 'horizontal',
   ...TransitionPresets.SlideFromRightIOS,
-  animation: 'fade',
+  animation: 'push',
   headerShown: true,
   gestureEnabled: false,
 };
@@ -42,6 +42,7 @@ const defaultNav = {
 /* WITHOUT HEADER */
 const noHeaderNav = {
   headerTitle: () => null,
+  headerLeft: () => null,
   headerTitleAlign: 'center',
   gestureDirection: 'horizontal',
   ...TransitionPresets.SlideFromRightIOS,
@@ -58,7 +59,7 @@ const noHeaderNav = {
 const BoardingStackNavigator = createStackNavigator({
   WelcomePage: {
     screen: Welcome,
-    navigationOptions: noHeaderNav,
+    navigationOptions: defaultNav,
   },
   DiscoverPage: {
     screen: Discover,
@@ -74,74 +75,6 @@ const BoardingStackNavigator = createStackNavigator({
     screen: SignUp,
     navigationOptions: noHeaderNav,
   },
-  /*
-  ForgotPassword: {
-    screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerStyle: {
-        minHeight: 75,
-        height: 90,
-      },
-      headerShown: true,
-      gestureEnabled: true,
-      headerBackTitle: 'Retour',
-    },
-  },
-  ForgotCodeReset: {
-    screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',    navigationOptions: {
-      headerStyle: {
-        height: '27%',
-        backgroundColor: Color.secondColorBackground,
-      },
-      headerTitle: () => null,
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerShown: true,
-      gestureEnabled: false,
-    },
-        height: 90,
-      },
-      headerShown: true,
-      gestureEnabled: true,
-      headerBackTitle: 'Retour',
-    },
-  },
-  ForgotNewPassword: {
-    screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerStyle: {
-        minHeight: 75,
-        height: 90,
-      },
-      headerShown: true,
-      gestureEnabled: true,
-      headerBackTitle: 'Retour',
-    },
-  },*/
 });
 
 /*
@@ -154,26 +87,10 @@ const TimeLineStackNavigator = createStackNavigator({
     screen: TimeLine,
     navigationOptions: defaultNav,
   },
-  /*
-  Bluetooth: {
-    screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerStyle: {
-        minHeight: 75,
-        height: 90,
-      },
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerShown: true,
-      gestureEnabled: true,
-      headerBackTitle: 'Retour',
-    },
-  },*/
+  Surround: {
+    screen: Surround,
+    navigationOptions: defaultNav,
+  },
 });
 
 /*
@@ -185,44 +102,6 @@ const ProfilStackNavigator = createStackNavigator({
   Profil: {
     screen: Welcome,
     navigationOptions: defaultNav,
-  },
-  History: {
-    screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerShown: true,
-      headerBackTitle: 'Retour',
-      headerStyle: {
-        minHeight: 75,
-        height: 90,
-      },
-      gestureEnabled: true,
-    },
-  },
-  Bill: {
-    screen: Welcome,
-    navigationOptions: {
-      headerTitle: () => (
-        <TitleApp isNavigationEnabled={false} onlyTitleApp={true} />
-      ),
-      headerTitleAlign: 'center',
-      gestureDirection: 'horizontal',
-      ...TransitionPresets.SlideFromRightIOS,
-      animation: 'fade',
-      headerBackTitle: 'Retour',
-      headerShown: true,
-      headerStyle: {
-        minHeight: 75,
-        height: 90,
-      },
-      gestureEnabled: true,
-    },
   },
 });
 

@@ -74,4 +74,8 @@ target 'borneapp' do
   #  find_and_replace("Pods/RCT-Folly/folly/synchronization/DistributedMutex-inl.h",
   #  "  atomic_notify_one(state);", "  folly::atomic_notify_one(state);")
   #end
+  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
+  pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
+
 end

@@ -200,6 +200,7 @@ dependencies {
     implementation project(path: ':@react-native-community_async-storage')
     implementation project(path: ':@react-native-community_netinfo')
     implementation project(path: ':@react-native-community_netinfo')
+    implementation project(':react-native-contacts')
     debugImplementation("com.facebook.flipper:flipper:0.102.0") {
       exclude group:'com.facebook.fbjni'
     }

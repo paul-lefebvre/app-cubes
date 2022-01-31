@@ -26,11 +26,13 @@ class Container extends React.Component {
     const state = this.state;
     return (
       <ScrollView
-        scrollEnabled={this.props.scrollEnabled ? this.props.scrollEnabled : true}
+        scrollEnabled={
+          this.props.scrollEnabled ? this.props.scrollEnabled : true
+        }
         style={[{backgroundColor: state.backgroundColor}, styles.container]}
         contentContainerStyle={[
           {
-            flex: 1,
+            flex: this.props.scrollEnabled ? null : 1,
             justifyContent: state.justifyContent,
             alignItems: state.alignItems,
           },
