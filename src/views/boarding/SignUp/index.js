@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import styles from './style';
+import {NeomorphFlex} from 'react-native-neomorph-shadows';
 
 //PACKAGES
 import Swiper from 'react-native-swiper';
@@ -23,9 +24,6 @@ import Container from '../../../components/layout/Container';
 import ButtonLarge from '../../../components/buttons/ButtonLarge';
 import Space from '../../../components/layout/Space';
 import InputText from '../../../components/inputs/InputText';
-
-//ICON
-import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 
 //CONSTANTS
 import I18n from '../../../i18n/i18n';
@@ -95,7 +93,12 @@ class SignUp extends React.Component {
   renderLoginCard() {
     const state = this.state;
     return (
-      <View style={styles.cardContainer}>
+      <NeomorphFlex
+        useArt
+        style={styles.cardContainer}
+        darkShadowColor="#FFFFFF"
+        lightShadowColor="#D1CDC7">
+        <Space size={21} />
         <InputText
           onValueChange={mail => {
             this.updateMail(mail);
@@ -117,7 +120,7 @@ class SignUp extends React.Component {
             Mot de passe oublié ?
           </Text>
         </TouchableOpacity>
-      </View>
+      </NeomorphFlex>
     );
   }
 
@@ -127,7 +130,12 @@ class SignUp extends React.Component {
   renderSignupCard() {
     const state = this.state;
     return (
-      <View style={styles.cardContainer}>
+      <NeomorphFlex
+        useArt
+        style={styles.cardContainer}
+        darkShadowColor="#FFFFFF"
+        lightShadowColor="#D1CDC7">
+        <Space size={30} />
         <InputText
           onValueChange={mail => {
             this.updateMail(mail);
@@ -155,7 +163,7 @@ class SignUp extends React.Component {
           wrong={state.wrongConfirmPassword}
           isPassword
         />
-      </View>
+      </NeomorphFlex>
     );
   }
 

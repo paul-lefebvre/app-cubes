@@ -1,4 +1,4 @@
-export const colorBackground = '#f1f0f2';
+export const colorBackground = '#EFEEEE';
 export const secondColorBackground = '#352641';
 export const thirdColorBackground = '#241332';
 

@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, TextInput, TouchableOpacity} from 'react-native';
+import { NeomorphFlex } from 'react-native-neomorph-shadows';
 
 // OTHER  COMPONENTS
 import * as Color from '../config/color';
@@ -35,8 +36,20 @@ class InputText extends React.Component {
 
   render() {
     return (
-      <View
-        style={{justifyContent: 'center', flexDirection: 'row', width: '90%'}}>
+      <NeomorphFlex
+        useArt
+        inner
+        lightShadowColor="#EFEEEE"
+        darkShadowColor="#D1CDC7"
+        style={{
+          shadowOpacity: 0.86,
+          shadowRadius: 2,
+          borderRadius: 9,
+          backgroundColor: '#FFFFFF',
+          justifyContent: 'center',
+          flexDirection: 'row',
+          width: '90%',
+        }}>
         <TextInput
           style={
             this.props.style
@@ -49,7 +62,7 @@ class InputText extends React.Component {
                       ? 'top'
                       : 'center',
                     fontSize: 15,
-                    borderWidth: 1.2,
+                    borderWidth: 0,
                     paddingLeft: 12,
                     borderRadius: 12,
                     color: 'gray',
@@ -97,7 +110,7 @@ class InputText extends React.Component {
             )}
           </TouchableOpacity>
         ) : null}
-      </View>
+      </NeomorphFlex>
     );
   }
 }

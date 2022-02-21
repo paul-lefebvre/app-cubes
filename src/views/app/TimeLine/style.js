@@ -38,14 +38,12 @@ export default StyleSheet.create({
     borderRadius: 30,
     width: '95%',
     backgroundColor: 'white',
-    shadowColor: '#000',
     shadowOffset: {
-      width: 0,
-      height: 1,
+      width: 3,
+      height: 3,
     },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
+    shadowOpacity: 0.8,
+    shadowRadius: 4.5,
   },
   addPulseIcon: {
     height: 120,

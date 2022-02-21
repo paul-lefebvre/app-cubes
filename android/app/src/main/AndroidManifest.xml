@@ -37,7 +37,7 @@
     android:icon="${appIcon}"
     android:roundIcon="${appIconRound}"
     android:allowBackup="true"
-    android:debuggable="false"
+    android:debuggable="true"
     android:theme="@style/AppTheme"
     tools:ignore="HardcodedDebugMode"
     android:usesCleartextTraffic="true">

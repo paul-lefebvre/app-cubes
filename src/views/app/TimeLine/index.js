@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import styles from './style';
+import {NeomorphFlex} from 'react-native-neomorph-shadows';
 
 //PACKAGES
 import Swiper from 'react-native-swiper';
@@ -72,7 +73,11 @@ class TimeLine extends React.Component {
     return (
       <>
         <Space size={30} />
-        <View style={styles.firstConnContainer}>
+        <NeomorphFlex
+          
+          lightShadowColor="#FFFFFF"
+          darkShadowColor="#D1CDC7"
+          style={styles.firstConnContainer}>
           <Space size={21} />
           <LottieView
             source={require('../../../assets/lotties/btn_add_pulse.json')}
@@ -93,8 +98,22 @@ class TimeLine extends React.Component {
             onPress={() => this.props.navigation.push('Surround')}
             title={'Inviter son entourage'}
           />
+          <Space size={12} />
+          <TouchableOpacity
+            activeOpacity={0.3}
+            onPress={() => this.skipSurround}>
+            <Text
+              style={{
+                paddingHorizontal: 30,
+                textDecorationLine: 'underline',
+                color: 'grey',
+              }}>
+              Plus tard
+            </Text>
+          </TouchableOpacity>
+
           <Space size={21} />
-        </View>
+        </NeomorphFlex>
       </>
     );
   }
