@@ -33,6 +33,7 @@ import I18n from '../../../i18n/i18n';
 import {appName} from '../../../config/utils';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {ScrollView} from 'react-native-gesture-handler';
+import InputSearch from '../../../components/inputs/InputSearch';
 import SmallUserCard from '../../../components/cards/SmallUserCard';
 
 class TimeLine extends React.Component {
@@ -135,6 +136,8 @@ class TimeLine extends React.Component {
           justifyContent={'flex-start'}
           scrollEnabled={true}
           alignItems={'center'}>
+          <Space size={30} />
+          <InputSearch placeholder={'Rechercher'} />
           {this.firstConnAddFriendsRender()}
           <Space size={30} />
           <ScrollView
