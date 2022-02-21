@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, TextInput, TouchableOpacity} from 'react-native';
-import { NeomorphFlex } from 'react-native-neomorph-shadows';
+import {TextInput, TouchableOpacity} from 'react-native';
+import {NeomorphFlex} from 'react-native-neomorph-shadows';
 
 // OTHER  COMPONENTS
 import * as Color from '../config/color';

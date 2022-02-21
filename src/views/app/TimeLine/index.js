@@ -5,11 +5,11 @@ import {
   TouchableOpacity,
   Text,
   View,
-  Image,
   Dimensions,
   KeyboardAvoidingView,
 } from 'react-native';
 import styles from './style';
+import Fade from '../../../components/anim/Fade';
 import {NeomorphFlex} from 'react-native-neomorph-shadows';
 
 //PACKAGES
@@ -25,12 +25,7 @@ import InputText from '../../../components/inputs/InputText';
 import BigTitle from '../../../components/texts/BigTitle';
 
 //ICON
-import {
-  faArrowRight,
-  faBars,
-  faBell,
-  faEnvelopeSquare,
-} from '@fortawesome/free-solid-svg-icons';
+import {faBars, faEnvelopeSquare} from '@fortawesome/free-solid-svg-icons';
 import LottieView from 'lottie-react-native';
 
 //CONSTANTS
@@ -44,7 +39,13 @@ class TimeLine extends React.Component {
   constructor(props) {
     super(props);
     this.swiper = React.createRef();
-    this.state = {};
+    this.state = {
+      isFirstConn: true,
+    };
+  }
+
+  skipSurround() {
+    this.setState({isFirstConn: false});
   }
 
   headerRender() {
@@ -71,10 +72,9 @@ class TimeLine extends React.Component {
   firstConnAddFriendsRender() {
     const state = this.state;
     return (
-      <>
+      <Fade visible={state.isFirstConn}>
         <Space size={30} />
         <NeomorphFlex
-          
           lightShadowColor="#FFFFFF"
           darkShadowColor="#D1CDC7"
           style={styles.firstConnContainer}>
@@ -101,7 +101,7 @@ class TimeLine extends React.Component {
           <Space size={12} />
           <TouchableOpacity
             activeOpacity={0.3}
-            onPress={() => this.skipSurround}>
+            onPress={() => this.skipSurround()}>
             <Text
               style={{
                 paddingHorizontal: 30,
@@ -114,7 +114,7 @@ class TimeLine extends React.Component {
 
           <Space size={21} />
         </NeomorphFlex>
-      </>
+      </Fade>
     );
   }
 
@@ -145,18 +145,18 @@ class TimeLine extends React.Component {
             style={styles.addFriendsContainer}>
             <SmallUserCard
               firstname={'Paul'}
-              lastname={'test'}
-              pseudo={'test'}
+              lastname={'Lefebvre'}
+              pseudo={'-'}
             />
             <SmallUserCard
               firstname={'Paul'}
-              lastname={'test'}
-              pseudo={'test'}
+              lastname={'Lefebvre'}
+              pseudo={'-'}
             />
             <SmallUserCard
               firstname={'Paul'}
-              lastname={'test'}
-              pseudo={'test'}
+              lastname={'Lefebvre'}
+              pseudo={'-'}
             />
           </ScrollView>
           <Space size={1000} />

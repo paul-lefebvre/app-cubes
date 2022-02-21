@@ -64,7 +64,12 @@ class Surround extends React.Component {
           ? this.state.contacts.map(contact => (
               <>
                 <View style={styles.contactContainer}>
-                  <Text style={styles.textContact}>{contact.displayName}</Text>
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode={'tail'}
+                    style={styles.textContact}>
+                    {contact.displayName}
+                  </Text>
                   <TouchableOpacity style={styles.contactBtn}>
                     <Text style={styles.contactBtnText}>Ajouter</Text>
                   </TouchableOpacity>

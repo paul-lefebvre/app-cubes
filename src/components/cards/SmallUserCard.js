@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   StyleSheet,
@@ -7,6 +8,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
+import ButtonLarge from '../buttons/ButtonLarge';
 
 import * as Color from '../config/color';
 import Space from '../layout/Space';
@@ -50,6 +52,13 @@ export default class SmallUserCard extends React.Component {
               {this.props.firstname} {this.props.lastname}
             </Text>
             <Text style={styles.text}>{this.props.pseudo}</Text>
+            <Space size={12} />
+            <ButtonLarge
+              style={{width: '90%', height: 45}}
+              onPress={() => null}
+              title={"S'abonner"}
+            />
+            <Space size={9} />
           </>
         )}
       </TouchableOpacity>
@@ -62,7 +71,7 @@ let width =
 
 const styles = StyleSheet.create({
   container: {
-    height: 180,
+    height: 230,
     width: width,
     marginLeft: 12,
     marginRight: 12,

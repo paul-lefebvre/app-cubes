@@ -17,7 +17,7 @@ import Surround from '../views/app/Surround';
 // RES
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHome, faStream, faUser} from '@fortawesome/free-solid-svg-icons';
-
+import {NeomorphFlex} from 'react-native-neomorph-shadows';
 import * as Color from '../components/config/color';
 
 /**
@@ -184,12 +184,33 @@ const TabNavigator = createBottomTabNavigator(
           color = focused ? 'black' : 'grey';
         }
         return (
-          <FontAwesomeIcon
-            icon={iconName}
-            color={color}
-            size={27}
-            style={{resizeMode: 'contain'}}
-          />
+          <NeomorphFlex
+            inner
+            lightShadowColor="#D1CDC7"
+            darkShadowColor="#D1CDE3"
+            style={{
+              height: 40,
+              width: 40,
+              backgroundColor: 'white',
+              shadowOpacity: 0.8,
+              shadowRadius: 2,
+              shadowOffset: {
+                width: 1,
+                height: 1,
+              },
+              borderRadius: 60,
+              margin: 12,
+              marginBottom: 12,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <FontAwesomeIcon
+              icon={iconName}
+              color={color}
+              size={18}
+              style={{resizeMode: 'contain'}}
+            />
+          </NeomorphFlex>
         );
       },
       tabBarOptions: {
