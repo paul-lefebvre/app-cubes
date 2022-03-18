@@ -76,7 +76,7 @@ class TimeLine extends React.Component {
       <Fade visible={state.isFirstConn}>
         <Space size={30} />
         <NeomorphFlex
-          lightShadowColor="#FFFFFF"
+          lightShadowColor="white"
           darkShadowColor="#D1CDC7"
           style={styles.firstConnContainer}>
           <Space size={21} />

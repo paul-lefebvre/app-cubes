@@ -1,9 +1,13 @@
+/* Graphical Chart */
 export const colorBackground = '#EFEEEE';
-export const secondColorBackground = '#352641';
-export const thirdColorBackground = '#241332';
+export const darkMagenta = '#A61651';
+export const blue = '#0E3D8B';
+export const darkBlue = '#001B2B';
 
-export const firstComplementColor = '#d47fa6';
-export const firstDarkComplementColor = '#e68cb5';
-export const secondComplementColor = '#5f4591';
+/* Neumorphism Shadows */
+export const lightShadow = '#D1CDC7';
+export const darkShadow = '#D1CDE3';
 
-export const thirdColor = '#8a56ac';
+export const componentBg = '#f5f5f5';
+
+export const borderShadow = '#';

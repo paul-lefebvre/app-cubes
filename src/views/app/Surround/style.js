@@ -32,7 +32,7 @@ export default StyleSheet.create({
   contactBtn: {
     borderRadius: 15,
     paddingHorizontal: 12,
-    backgroundColor: Color.secondColorBackground,
+    backgroundColor: Color.blue,
   },
   contactBtnText: {
     fontSize: 15,

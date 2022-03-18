@@ -87,14 +87,14 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
 
     elevation: 2,
-    backgroundColor: 'white',
+    backgroundColor: Color.componentBg,
   },
   profilImg: {
     width: 90,
     height: 90,
     borderWidth: 3,
     borderRadius: 180,
-    borderColor: Color.secondComplementColor,
+    borderColor: Color.darkMagenta,
   },
   text: {
     alignSelf: 'center',

@@ -32,7 +32,7 @@ export default StyleSheet.create({
     height: '33%',
     width: '100%',
     borderBottomLeftRadius: 90,
-    backgroundColor: Color.secondComplementColor,
+    backgroundColor: Color.darkMagenta,
   },
   cardContainer: {
     width: '90%',

@@ -108,7 +108,7 @@ class Discover extends React.Component {
         style={styles.container}
         behavior="height">
         <Container
-          backgroundColor={Color.thirdColorBackground}
+          backgroundColor={Color.darkMagenta}
           justifyContent={'flex-start'}
           alignItems={'center'}>
           <Space size={60} />

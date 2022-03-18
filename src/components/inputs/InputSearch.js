@@ -73,7 +73,7 @@ class InputSearch extends React.Component {
                   },
                   this.props.wrong != null
                     ? {borderColor: this.state.wrong ? 'red' : 'lightgreen'}
-                    : {borderColor: Color.thirdColorBackground},
+                    : {borderColor: Color.darkMagenta},
                 ]
           }
           onChangeText={content => this.props.onValueChange(content)}

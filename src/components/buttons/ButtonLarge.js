@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: width,
     borderRadius: 30,
-    backgroundColor: Color.secondComplementColor,
+    backgroundColor: Color.darkMagenta,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

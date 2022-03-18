@@ -79,7 +79,7 @@ class Welcome extends React.Component {
 
         <TouchableHighlight
           activeOpacity={0.6}
-          underlayColor={Color.secondComplementColor}
+          underlayColor={Color.darkMagenta}
           onPress={() => this.props.navigation.navigate('DiscoverPage')}
           style={styles.buttonStart}>
           <>

@@ -34,7 +34,7 @@ export default StyleSheet.create({
     bottom: '15%',
     right: 0,
     position: 'absolute',
-    backgroundColor: Color.secondColorBackground,
+    backgroundColor: Color.blue,
     borderBottomLeftRadius: 90,
     borderTopLeftRadius: 9,
   },
@@ -81,6 +81,6 @@ export default StyleSheet.create({
     elevation: 4,
     borderTopLeftRadius: 90,
     borderBottomLeftRadius: 90,
-    backgroundColor: Color.thirdColor,
+    backgroundColor: Color.blue,
   },
 });

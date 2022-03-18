@@ -79,7 +79,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     borderTopLeftRadius: 90,
-    backgroundColor: Color.secondComplementColor,
+    backgroundColor: Color.darkMagenta,
   },
   firstShadow: {
     position: 'relative',

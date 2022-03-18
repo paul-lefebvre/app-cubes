@@ -27,7 +27,7 @@ const defaultNav = {
   headerStyle: {
     height: 40,
     borderWidth: 0,
-    backgroundColor: Color.secondColorBackground,
+    backgroundColor: Color.darkBlue,
   },
   headerTitle: () => null,
   headerLeft: () => null,
@@ -186,14 +186,16 @@ const TabNavigator = createBottomTabNavigator(
         return (
           <NeomorphFlex
             inner
-            lightShadowColor="#D1CDC7"
-            darkShadowColor="#D1CDE3"
+            lightShadowColor={Color.lightShadow}
+            darkShadowColor={Color.darkShadow}
             style={{
               height: 40,
               width: 40,
               backgroundColor: 'white',
               shadowOpacity: 0.8,
-              shadowRadius: 2,
+              shadowRadius: 4.5,
+              borderWidth: 3,
+              borderColor: Color.darkShadow,
               shadowOffset: {
                 width: 1,
                 height: 1,
@@ -213,9 +215,15 @@ const TabNavigator = createBottomTabNavigator(
           </NeomorphFlex>
         );
       },
+      lazy: false,
       tabBarOptions: {
         showLabel: false,
         showIcon: true,
+        keyboardHidesTabBar: false,
+        style: {
+          backgroundColor: 'white',
+          borderTopWidth: 0.1,
+        },
       },
     }),
     initialRouteName: 'TimeLine',
