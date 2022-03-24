@@ -5,10 +5,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as Color from '../config/color';
 import Space from '../layout/Space';
 import Avatar from '../avatar/Avatar';
-import {
-  faGripDotsVertical,
-  faGripVertical,
-} from '@fortawesome/free-solid-svg-icons';
+import {faGripVertical, faPaperPlane} from '@fortawesome/free-solid-svg-icons';
+
+import {faCommentDots, faHeart} from '@fortawesome/free-regular-svg-icons';
 
 export default class PostCard extends React.Component {
   constructor(props) {
@@ -50,6 +49,29 @@ export default class PostCard extends React.Component {
               : require('../../assets/img/logo.png')
           }
         />
+        <View style={styles.footer}>
+          <TouchableOpacity style={styles.actions}>
+            <FontAwesomeIcon
+              icon={faHeart}
+              color={Color.darkMagenta}
+              size={27}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actions}>
+            <FontAwesomeIcon
+              icon={faCommentDots}
+              color={Color.darkBlue}
+              size={27}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actions}>
+            <FontAwesomeIcon
+              icon={faPaperPlane}
+              color={Color.darkBlue}
+              size={27}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -81,6 +103,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: 'white',
   },
+  footer: {
+    flex: 0.1,
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '100%',
+    paddingVertical: 15,
+    borderBottomLeftRadius: 18,
+    borderBottomRightRadius: 18,
+    justifyContent: 'flex-start',
+    backgroundColor: 'white',
+  },
   profil: {
     flex: 0.5,
     justifyContent: 'space-around',
@@ -89,7 +122,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   actions: {
-    flex: 0.2,
+    flex: 0.18,
     alignItems: 'center',
   },
   resImg: {
