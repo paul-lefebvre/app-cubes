@@ -20,10 +20,6 @@ class App extends React.Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    SplashScreen.hide();
-  }
-
   render() {
     StatusBar.setBarStyle('light-content', true);
 

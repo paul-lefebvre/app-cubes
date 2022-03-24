@@ -11,6 +11,8 @@ import {
 import styles from './style';
 
 import Swiper from 'react-native-swiper';
+import SplashScreen from 'react-native-splash-screen';
+import AsyncStorage from '@react-native-community/async-storage';
 
 //LAYOUTS
 import * as Color from '../../../components/config/color';
@@ -28,6 +30,15 @@ class Welcome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  async componentDidMount() {
+    const user = JSON.parse(await AsyncStorage.getItem('user'));
+    if (user) {
+      this.props.navigation.navigate('Home');
+      console.log('user');
+    }
+    SplashScreen.hide();
   }
 
   render() {
