@@ -12,7 +12,7 @@ import {
 import styles from './style';
 
 //CONSTANTS
-import {appName} from '../../../config/utils';
+import {API_URL, appName} from '../../../config/utils';
 
 //LAYOUTS
 import * as Color from '../../../components/config/color';
@@ -29,6 +29,7 @@ import {faPlusSquare} from '@fortawesome/free-regular-svg-icons';
 import I18n from '../../../i18n/i18n';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import AsyncStorage from '@react-native-community/async-storage';
+import Avatar from '../../../components/avatar/Avatar';
 
 class Profil extends React.Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class Profil extends React.Component {
     this.setState({
       user: user,
     });
+    console.log(user);
   }
 
   headerRender() {
@@ -80,15 +82,40 @@ class Profil extends React.Component {
           backgroundColor={Color.colorBackground}
           justifyContent={'flex-start'}
           alignItems={'center'}>
-          <Space size={60} />
-          <View style={styles.headerContainer}>
-            <Text style={styles.appName}>{appName}</Text>
-          </View>
-          <View style={styles.whiteLine} />
-          <Space size={18} />
-          <View style={styles.backgroundPage} />
+          <Space size={30} />
+          <View style={styles.profilContainer}>
+            <Space width={9} />
+            <Avatar
+              url={
+                API_URL +
+                '/public/upload/images/avatar/' +
+                state.user.avatar_img
+              }
+              style={{width: 81, height: 81}}
+              styleImg={{width: 81, height: 81}}
+            />
+            <View style={styles.statContainer}>
+              <Text style={styles.numbers}>0</Text>
+              <Text style={styles.smallText}>Publications</Text>
+            </View>
 
-          <Space size={90} />
+            <View style={styles.statContainer}>
+              <Text style={styles.numbers}>
+                {state.user ? state.user.abonnements.length : '?'}
+              </Text>
+              <Text style={styles.smallText}>Abonnements</Text>
+            </View>
+            <View style={styles.statContainer}>
+              <Text style={styles.numbers}>
+                {state.user ? state.user.abonnes.length : '?'}
+              </Text>
+              <Text textBreakStrategy="highQuality" style={styles.smallText}>
+                Abonnés
+              </Text>
+            </View>
+          </View>
+
+          <Space size={30} />
         </Container>
       </KeyboardAvoidingView>
     );

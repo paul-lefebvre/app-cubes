@@ -27,10 +27,10 @@ export default class Avatar extends React.Component {
         onPress={this.onPress.bind(this)}
         style={[styles.container, this.props.style]}>
         <Image
-          style={styles.profilImg}
+          style={[styles.profilImg, this.props.styleImg]}
           source={
             this.props.url
-              ? this.props.url
+              ? {uri: this.props.url}
               : require('../../assets/img/logo.png')
           }
         />
@@ -41,7 +41,6 @@ export default class Avatar extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.2,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',

@@ -13,6 +13,17 @@ export default StyleSheet.create({
     width: '100%',
     backgroundColor: Color.blue,
   },
+  profilContainer: {
+    flex: 0.15,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  statContainer: {
+    flex: 0.4,
+    alignItems: 'center',
+  },
   pseudo: {
     flex: 1,
     color: 'white',
@@ -31,5 +42,15 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     width: '45%',
     alignSelf: 'center',
+  },
+  smallText: {
+    fontSize: 12,
+    textAlign: 'center',
+    fontFamily: 'Montserrat-SemiBold',
+  },
+  numbers: {
+    fontSize: 21,
+    textAlign: 'center',
+    fontFamily: 'Montserrat-Bold',
   },
 });
