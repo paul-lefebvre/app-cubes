@@ -13,6 +13,8 @@ import SignUp from '../views/boarding/SignUp';
 
 import TimeLine from '../views/app/TimeLine';
 import Surround from '../views/app/Surround';
+import Profil from '../views/app/Profil';
+import Home from '../views/app/Home';
 
 // RES
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -100,7 +102,7 @@ const TimeLineStackNavigator = createStackNavigator({
  */
 const ProfilStackNavigator = createStackNavigator({
   Profil: {
-    screen: Welcome,
+    screen: Profil,
     navigationOptions: defaultNav,
   },
 });
@@ -112,7 +114,7 @@ const ProfilStackNavigator = createStackNavigator({
  */
 const ActivityStackNavigator = createStackNavigator({
   Activity: {
-    screen: Welcome,
+    screen: Home,
     navigationOptions: defaultNav,
   },
   DetailActivity: {

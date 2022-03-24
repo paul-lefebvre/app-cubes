@@ -29,7 +29,8 @@ import InputText from '../../../components/inputs/InputText';
 import BigTitle from '../../../components/texts/BigTitle';
 
 //ICON
-import {faBars, faEnvelopeSquare} from '@fortawesome/free-solid-svg-icons';
+import {faEnvelopeSquare} from '@fortawesome/free-solid-svg-icons';
+import {faBell, faPlusSquare} from '@fortawesome/free-regular-svg-icons';
 import LottieView from 'lottie-react-native';
 
 //CONSTANTS
@@ -48,7 +49,7 @@ class TimeLine extends React.Component {
     this.swiper = React.createRef();
     this.state = {
       user: null,
-      isFirstConn: true,
+      isFirstConn: false,
       suggests: null,
     };
   }
@@ -75,13 +76,19 @@ class TimeLine extends React.Component {
           onPress={() => null}
           style={styles.button}
           activeOpacity={0.6}>
-          <FontAwesomeIcon icon={faBars} size={27} color={'white'} />
+          <FontAwesomeIcon icon={faPlusSquare} size={27} color={'white'} />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => null}
           style={styles.button}
           activeOpacity={0.6}>
-          <FontAwesomeIcon icon={faEnvelopeSquare} size={30} color={'white'} />
+          <FontAwesomeIcon icon={faBell} size={27} color={'white'} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => null}
+          style={styles.button}
+          activeOpacity={0.6}>
+          <FontAwesomeIcon icon={faEnvelopeSquare} size={27} color={'white'} />
         </TouchableOpacity>
       </View>
     );

@@ -5,7 +5,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as Color from '../config/color';
 import Space from '../layout/Space';
 import Avatar from '../avatar/Avatar';
-import {faGripVertical, faPaperPlane} from '@fortawesome/free-solid-svg-icons';
+import {faEllipsisV, faGripVertical, faPaperPlane} from '@fortawesome/free-solid-svg-icons';
 
 import {faCommentDots, faHeart} from '@fortawesome/free-regular-svg-icons';
 
@@ -35,9 +35,9 @@ export default class PostCard extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity style={styles.actions}>
             <FontAwesomeIcon
-              icon={faGripVertical}
+              icon={faEllipsisV}
               color={Color.darkBlue}
-              size={30}
+              size={18}
             />
           </TouchableOpacity>
         </View>

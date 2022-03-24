@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 import styles from './style';
 
-//PACKAGES
-import Swiper from 'react-native-swiper';
+//CONSTANTS
+import {appName} from '../../../config/utils';
 
 //LAYOUTS
 import * as Color from '../../../components/config/color';
@@ -20,20 +20,50 @@ import Container from '../../../components/layout/Container';
 import ButtonLarge from '../../../components/buttons/ButtonLarge';
 
 import Space from '../../../components/layout/Space';
-import InputText from '../../../components/inputs/InputText';
 
 //ICON
-import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {faBars} from '@fortawesome/free-solid-svg-icons';
+import {faPlusSquare} from '@fortawesome/free-regular-svg-icons';
 
-//CONSTANTS
+//PACKAGES
 import I18n from '../../../i18n/i18n';
-import {appName} from '../../../config/utils';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Profil extends React.Component {
   constructor(props) {
     super(props);
-    this.swiper = React.createRef();
-    this.state = {};
+    this.state = {
+      user: '',
+    };
+  }
+
+  async componentWillMount() {
+    const user = JSON.parse(await AsyncStorage.getItem('user'));
+    this.setState({
+      user: user,
+    });
+  }
+
+  headerRender() {
+    const state = this.state;
+    return (
+      <View style={styles.header}>
+        <Text style={styles.pseudo}>{state.user ? state.user.pseudo : ''}</Text>
+        <TouchableOpacity
+          onPress={() => null}
+          style={styles.button}
+          activeOpacity={0.6}>
+          <FontAwesomeIcon icon={faPlusSquare} size={27} color={'white'} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => null}
+          style={styles.button}
+          activeOpacity={0.6}>
+          <FontAwesomeIcon icon={faBars} size={27} color={'white'} />
+        </TouchableOpacity>
+      </View>
+    );
   }
 
   render() {
@@ -45,6 +75,7 @@ class Profil extends React.Component {
         keyboardVerticalOffset={-heightScreen / 2.5}
         style={styles.container}
         behavior="height">
+        {this.headerRender()}
         <Container
           backgroundColor={Color.colorBackground}
           justifyContent={'flex-start'}
