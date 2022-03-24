@@ -35,6 +35,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {ScrollView} from 'react-native-gesture-handler';
 import InputSearch from '../../../components/inputs/InputSearch';
 import SmallUserCard from '../../../components/cards/SmallUserCard';
+import PostCard from '../../../components/cards/PostCard';
 
 class TimeLine extends React.Component {
   constructor(props) {
@@ -162,7 +163,9 @@ class TimeLine extends React.Component {
               pseudo={'-'}
             />
           </ScrollView>
-          <Space size={1000} />
+          <Space size={30} />
+          <PostCard firstname="Paul" lastname="Lefebvre" />
+          <Space size={30} />
         </Container>
       </KeyboardAvoidingView>
     );
