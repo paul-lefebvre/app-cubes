@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-mount-set-state */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-unused-vars */
 import * as React from 'react';
@@ -15,6 +16,9 @@ import {NeomorphFlex} from 'react-native-neomorph-shadows';
 //PACKAGES
 import Swiper from 'react-native-swiper';
 
+//FUNCTIONS
+import suggest from '../../../functions/suggest';
+
 //LAYOUTS
 import * as Color from '../../../components/config/color';
 import Container from '../../../components/layout/Container';
@@ -30,20 +34,32 @@ import LottieView from 'lottie-react-native';
 
 //CONSTANTS
 import I18n from '../../../i18n/i18n';
-import {appName} from '../../../config/utils';
+import {API_URL, appName} from '../../../config/utils';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {ScrollView} from 'react-native-gesture-handler';
 import InputSearch from '../../../components/inputs/InputSearch';
 import SmallUserCard from '../../../components/cards/SmallUserCard';
 import PostCard from '../../../components/cards/PostCard';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class TimeLine extends React.Component {
   constructor(props) {
     super(props);
     this.swiper = React.createRef();
     this.state = {
+      user: null,
       isFirstConn: true,
+      suggests: null,
     };
+  }
+
+  async componentDidMount() {
+    const suggests = await suggest();
+    const user = JSON.parse(await AsyncStorage.getItem('user'));
+    this.setState({
+      user: user,
+      suggests: suggests,
+    });
   }
 
   skipSurround() {
@@ -120,6 +136,21 @@ class TimeLine extends React.Component {
     );
   }
 
+  renderSuggests() {
+    return this.state.suggests.map((item, index) => {
+      if (item.usr_id !== this.state.user.usr_id) {
+        return (
+          <SmallUserCard
+            firstname={item.firstname}
+            lastname={item.lastname}
+            pseudo={item.pseudo}
+            url={API_URL + '/public/upload/images/avatar/' + item.avatar_img}
+          />
+        );
+      }
+    });
+  }
+
   render() {
     const state = this.state;
     const propsNav = this.props.navigation.state.params;
@@ -147,21 +178,7 @@ class TimeLine extends React.Component {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.addFriendsContentContainer}
             style={styles.addFriendsContainer}>
-            <SmallUserCard
-              firstname={'Paul'}
-              lastname={'Lefebvre'}
-              pseudo={'-'}
-            />
-            <SmallUserCard
-              firstname={'Paul'}
-              lastname={'Lefebvre'}
-              pseudo={'-'}
-            />
-            <SmallUserCard
-              firstname={'Paul'}
-              lastname={'Lefebvre'}
-              pseudo={'-'}
-            />
+            {state.suggests ? this.renderSuggests() : null}
           </ScrollView>
           <Space size={30} />
           <PostCard firstname="Paul" lastname="Lefebvre" />

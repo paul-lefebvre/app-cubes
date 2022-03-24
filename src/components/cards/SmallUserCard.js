@@ -43,7 +43,7 @@ export default class SmallUserCard extends React.Component {
               style={styles.profilImg}
               source={
                 this.props.url
-                  ? this.props.url
+                  ? {uri: this.props.url}
                   : require('../../assets/img/logo.png')
               }
             />

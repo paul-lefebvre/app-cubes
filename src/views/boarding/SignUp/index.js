@@ -17,6 +17,7 @@ import Swiper from 'react-native-swiper';
 
 //FCTs
 import register from '../../../functions/register';
+import login from '../../../functions/login';
 
 //LAYOUTS
 import * as Color from '../../../components/config/color';
@@ -34,6 +35,7 @@ class SignUp extends React.Component {
     super(props);
     this.swiper = React.createRef();
     this.state = {
+      errorMsg: null,
       mail: '',
       wrongMail: null,
       password: '',
@@ -120,6 +122,10 @@ class SignUp extends React.Component {
             Mot de passe oublié ?
           </Text>
         </TouchableOpacity>
+        <Space size={12} />
+        <Text style={styles.errorMsg}>
+          {this.state.errorMsg ? this.state.errorMsg : ''}
+        </Text>
       </NeomorphFlex>
     );
   }
@@ -184,7 +190,16 @@ class SignUp extends React.Component {
       const response = await register(user);
       console.log(response);
     } else if (this.state.indexCard === 0) {
-      this.props.navigation.navigate('Home');
+      const credentials = {
+        mail: this.state.mail,
+        password: this.state.password,
+      };
+      const response = await login(credentials);
+      if (response.error) {
+        this.setState({errorMsg: response.message});
+      } else {
+        this.props.navigation.navigate('Home');
+      }
     }
   }
 

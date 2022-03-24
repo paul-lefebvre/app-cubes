@@ -67,4 +67,10 @@ export default StyleSheet.create({
     width: '45%',
     alignSelf: 'center',
   },
+  errorMsg: {
+    fontSize: 15,
+    color: Color.darkMagenta,
+    textAlign: 'center',
+    fontFamily: 'Montserrat-SemiBold',
+  },
 });

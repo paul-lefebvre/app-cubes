@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const appName = 'Links For Citizens';
 const versionApp = '0.0.1';
 
-let DEBUG_API_URL = 'http://192.168.1.29:3000';
+let DEBUG_API_URL = 'http://192.168.69.196:3000';
 let API_URL = 'http://localhost:3000';
 
 const DEBUG = true;
