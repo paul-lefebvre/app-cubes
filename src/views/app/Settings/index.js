@@ -22,8 +22,7 @@ import ButtonLarge from '../../../components/buttons/ButtonLarge';
 import Space from '../../../components/layout/Space';
 
 //ICON
-import {faCog} from '@fortawesome/free-solid-svg-icons';
-import {faPlusSquare} from '@fortawesome/free-regular-svg-icons';
+import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 
 //PACKAGES
 import I18n from '../../../i18n/i18n';
@@ -31,7 +30,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import AsyncStorage from '@react-native-community/async-storage';
 import Avatar from '../../../components/avatar/Avatar';
 
-class Profil extends React.Component {
+class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,21 +50,22 @@ class Profil extends React.Component {
     const state = this.state;
     return (
       <View style={styles.header}>
-        <Text style={styles.pseudo}>{state.user ? state.user.pseudo : ''}</Text>
+        <Space width={30} />
         <TouchableOpacity
-          onPress={() => null}
+          onPress={() => this.props.navigation.navigate('Profil')}
           style={styles.button}
           activeOpacity={0.6}>
-          <FontAwesomeIcon icon={faPlusSquare} size={27} color={'white'} />
+          <FontAwesomeIcon icon={faArrowLeft} size={27} color={'white'} />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.push('Settings')}
-          style={styles.button}
-          activeOpacity={0.6}>
-          <FontAwesomeIcon icon={faCog} size={27} color={'white'} />
-        </TouchableOpacity>
+        <Text style={styles.pseudo}>Paramètres</Text>
       </View>
     );
+  }
+
+  async logout() {
+    await AsyncStorage.removeItem('jwt');
+    await AsyncStorage.removeItem('user');
+    this.props.navigation.push('SignUpPage', {indexPage: 0});
   }
 
   render() {
@@ -83,38 +83,8 @@ class Profil extends React.Component {
           justifyContent={'flex-start'}
           alignItems={'center'}>
           <Space size={30} />
-          <View style={styles.profilContainer}>
-            <Space width={9} />
-            <Avatar
-              url={
-                API_URL +
-                '/public/upload/images/avatar/' +
-                state.user.avatar_img
-              }
-              style={{width: 81, height: 81}}
-              styleImg={{width: 81, height: 81}}
-            />
-            <View style={styles.statContainer}>
-              <Text style={styles.numbers}>0</Text>
-              <Text style={styles.smallText}>Publications</Text>
-            </View>
-
-            <View style={styles.statContainer}>
-              <Text style={styles.numbers}>
-                {state.user ? state.user.abonnements.length : '?'}
-              </Text>
-              <Text style={styles.smallText}>Abonnements</Text>
-            </View>
-            <View style={styles.statContainer}>
-              <Text style={styles.numbers}>
-                {state.user ? state.user.abonnes.length : '?'}
-              </Text>
-              <Text textBreakStrategy="highQuality" style={styles.smallText}>
-                Abonnés
-              </Text>
-            </View>
-          </View>
-
+          <Space size={18} />
+          <ButtonLarge title="Déconnexion" onPress={this.logout.bind(this)} />
           <Space size={30} />
         </Container>
       </KeyboardAvoidingView>
@@ -122,4 +92,4 @@ class Profil extends React.Component {
   }
 }
 
-export default Profil;
+export default Settings;

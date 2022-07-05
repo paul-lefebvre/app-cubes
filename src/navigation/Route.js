@@ -15,6 +15,7 @@ import TimeLine from '../views/app/TimeLine';
 import Surround from '../views/app/Surround';
 import Profil from '../views/app/Profil';
 import Home from '../views/app/Home';
+import Settings from '../views/app/Settings';
 
 // RES
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -103,6 +104,10 @@ const TimeLineStackNavigator = createStackNavigator({
 const ProfilStackNavigator = createStackNavigator({
   Profil: {
     screen: Profil,
+    navigationOptions: defaultNav,
+  },
+  Settings: {
+    screen: Settings,
     navigationOptions: defaultNav,
   },
 });
