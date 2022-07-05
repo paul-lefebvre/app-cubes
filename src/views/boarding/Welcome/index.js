@@ -36,7 +36,6 @@ class Welcome extends React.Component {
     const user = JSON.parse(await AsyncStorage.getItem('user'));
     if (user) {
       this.props.navigation.navigate('Home');
-      console.log('user');
     }
     SplashScreen.hide();
   }

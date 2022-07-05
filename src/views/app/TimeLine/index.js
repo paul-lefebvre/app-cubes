@@ -73,7 +73,7 @@ class TimeLine extends React.Component {
       <View style={styles.header}>
         <Text style={styles.appName}>{appName}</Text>
         <TouchableOpacity
-          onPress={() => null}
+          onPress={() => this.props.navigation.push('NewPost')}
           style={styles.button}
           activeOpacity={0.6}>
           <FontAwesomeIcon icon={faPlusSquare} size={27} color={'white'} />

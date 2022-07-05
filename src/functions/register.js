@@ -2,7 +2,6 @@ import {API_URL} from '../config/utils';
 
 export default async datas => {
   let encryptedPassword = datas.password;
-  console.log(datas);
   return await fetch(API_URL + '/api/users/', {
     method: 'POST',
     headers: {

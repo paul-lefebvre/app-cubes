@@ -11,7 +11,6 @@ export default async datas => {
   })
     .then(res => res.json())
     .then(async function (result) {
-      console.log(result);
       return result;
     });
 };
