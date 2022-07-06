@@ -53,19 +53,4 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Montserrat-Bold',
   },
-  cardContainer: {
-    width: '90%',
-    borderRadius: 33,
-    shadowRadius: 4,
-    shadowOpacity: 0.5,
-    backgroundColor: '#EFEEEE',
-    alignItems: 'center',
-    alignSelf: 'center',
-    justifyContent: 'space-evenly',
-  },
-  errorMsg: {
-    color: 'red',
-    width: '75%',
-    textAlign: 'center',
-  }
 });

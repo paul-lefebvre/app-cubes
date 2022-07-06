@@ -40,11 +40,18 @@ class Profil extends React.Component {
   }
 
   async componentWillMount() {
+    await this.getUser();
+  }
+
+  async componentWillReceiveProps() {
+    await this.getUser();
+  }
+
+  async getUser() {
     const user = JSON.parse(await AsyncStorage.getItem('user'));
     this.setState({
       user: user,
     });
-    console.log(user);
   }
 
   headerRender() {

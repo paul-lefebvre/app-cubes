@@ -10,15 +10,17 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import styles from './style';
+import {NeomorphFlex} from 'react-native-neomorph-shadows';
 
 //CONSTANTS
-import {API_URL, appName} from '../../../config/utils';
+import {API_URL} from '../../../config/utils';
+import refreshUser from '../../../functions/refreshUser';
 
 //LAYOUTS
 import * as Color from '../../../components/config/color';
 import Container from '../../../components/layout/Container';
 import ButtonLarge from '../../../components/buttons/ButtonLarge';
-
+import InputText from '../../../components/inputs/InputText';
 import Space from '../../../components/layout/Space';
 
 //ICON
@@ -35,6 +37,13 @@ class Settings extends React.Component {
     super(props);
     this.state = {
       user: '',
+      mail: '',
+      pseudo: '',
+      firstname: '',
+      lastname: '',
+      errorMsg: '',
+      wrongMail: null,
+      validMsg: '',
     };
   }
 
@@ -43,7 +52,6 @@ class Settings extends React.Component {
     this.setState({
       user: user,
     });
-    console.log(user);
   }
 
   headerRender() {
@@ -52,7 +60,7 @@ class Settings extends React.Component {
       <View style={styles.header}>
         <Space width={30} />
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('Profil')}
+          onPress={() => this.goBack()}
           style={styles.button}
           activeOpacity={0.6}>
           <FontAwesomeIcon icon={faArrowLeft} size={27} color={'white'} />
@@ -62,10 +70,86 @@ class Settings extends React.Component {
     );
   }
 
+  updatePseudo(value) {
+    this.setState({pseudo: value});
+  }
+
+  updateFirstname(value) {
+    this.setState({firstname: value});
+  }
+
+  updateLastname(value) {
+    this.setState({lastname: value});
+  }
+
+  updateMail(value) {
+    this.setState({mail: value});
+    if (
+      !value ||
+      value === '' ||
+      value.includes(' ') ||
+      !value.includes('@') ||
+      !value.includes('.')
+    ) {
+      this.setState({wrongMail: true});
+    } else {
+      this.setState({wrongMail: false});
+    }
+  }
+
+  async updateUser() {
+    console.log(this.state.user.usr_id);
+    if (
+      !this.state.mail &&
+      !this.state.firstname &&
+      !this.state.lastname &&
+      !this.state.pseudo
+    ) {
+      this.setState({
+        errorMsg:
+          'Veuillez modifier une de vos informations afin de confirmer.',
+      });
+      return;
+    }
+
+    let result = await fetch(API_URL + '/api/users/' + this.state.user.usr_id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pseudo: this.state.pseudo ? this.state.pseudo : this.state.user.pseudo,
+        firstname: this.state.firstname
+          ? this.state.firstname
+          : this.state.user.firstname,
+        lastname: this.state.lastname
+          ? this.state.lastname
+          : this.state.user.lastname,
+        mail: this.state.mail ? this.state.mail : this.state.user.mail,
+      }),
+    }).then(res => {
+      return res;
+    });
+
+    if (result.ok) {
+      this.setState({validMsg: 'Modifications effectuées'});
+      await refreshUser(this.state.user.usr_id);
+    }
+  }
+
   async logout() {
     await AsyncStorage.removeItem('jwt');
     await AsyncStorage.removeItem('user');
     this.props.navigation.push('SignUpPage', {indexPage: 0});
+  }
+
+  async goBack() {
+    try {
+      await refreshUser(this.state.user.usr_id);
+    } catch (err) {
+      console.log(err);
+    }
+    this.props.navigation.navigate('Profil', {needRefresh: true});
   }
 
   render() {
@@ -83,7 +167,65 @@ class Settings extends React.Component {
           justifyContent={'flex-start'}
           alignItems={'center'}>
           <Space size={30} />
-          <Space size={18} />
+
+          <NeomorphFlex
+            useArt
+            style={styles.cardContainer}
+            darkShadowColor="#FFFFFF"
+            lightShadowColor="#D1CDC7">
+            <Space size={9} />
+            <Text style={styles.smallText}>Informations Personnelles</Text>
+            <Space size={18} />
+            <InputText
+              onValueChange={pseudo => {
+                this.updatePseudo(pseudo);
+              }}
+              placeholder={state.user.pseudo}
+              content={state.user.pseudo}
+            />
+            <Space size={12} />
+            <InputText
+              onValueChange={firstname => {
+                this.updateFirstname(firstname);
+              }}
+              placeholder={state.user.firstname}
+              content={state.user.firstname}
+            />
+            <Space size={12} />
+            <InputText
+              onValueChange={lastname => {
+                this.updateLastname(lastname);
+              }}
+              placeholder={state.user.lastname}
+              content={state.user.lastname}
+            />
+            <Space size={12} />
+            <InputText
+              onValueChange={mail => {
+                this.updateMail(mail);
+              }}
+              placeholder={state.user.mail}
+              content={state.user.mail}
+              isMailInput
+              wrong={state.wrongMail}
+            />
+            <Space size={12} />
+            <Text style={styles.errorMsg}>
+              {this.state.errorMsg ? this.state.errorMsg : ''}
+            </Text>
+            <ButtonLarge
+              style={{
+                width: '75%',
+                height: 60,
+                bottom: -12,
+                backgroundColor: Color.blue,
+              }}
+              title="Modifier"
+              onPress={this.updateUser.bind(this)}
+            />
+          </NeomorphFlex>
+
+          <Space size={160} />
           <ButtonLarge title="Déconnexion" onPress={this.logout.bind(this)} />
           <Space size={30} />
         </Container>
