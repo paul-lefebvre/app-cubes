@@ -52,7 +52,7 @@ export default class PostCard extends React.Component {
         this.setState({isLiked: false});
         this.setState({ownLike: null});
         this.setState({likes: []});
-        /* await this.handleLikes(); */
+        await this.handleLikes();
       }
     } catch (err) {
       console.log(err);

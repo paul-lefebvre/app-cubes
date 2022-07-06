@@ -18,7 +18,7 @@ import {API_URL, appName} from '../../../config/utils';
 import * as Color from '../../../components/config/color';
 import Container from '../../../components/layout/Container';
 import ButtonLarge from '../../../components/buttons/ButtonLarge';
-
+import DropDownPicker from 'react-native-dropdown-picker';
 import Space from '../../../components/layout/Space';
 
 //ICON
@@ -29,12 +29,17 @@ import I18n from '../../../i18n/i18n';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import AsyncStorage from '@react-native-community/async-storage';
 import Avatar from '../../../components/avatar/Avatar';
+import InputText from '../../../components/inputs/InputText';
 
 class NewPost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: '',
+      openDropdown: false,
+      valueCategory: null,
+      categories: [],
+      answers: null,
     };
   }
 
@@ -43,7 +48,22 @@ class NewPost extends React.Component {
     this.setState({
       user: user,
     });
-    console.log(user);
+
+    let categories = await fetch(API_URL + '/api/categories', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        return res;
+      });
+    categories.forEach((category, index) => {
+      categories[index].label = category.title;
+      categories[index].value = category.cat_id;
+    });
+    this.setState({categories: categories});
   }
 
   headerRender() {
@@ -68,6 +88,22 @@ class NewPost extends React.Component {
     this.props.navigation.push('SignUpPage', {indexPage: 0});
   }
 
+  setOpenDropdown(open) {
+    this.setState({openDropdown: open});
+  }
+
+  setValue(callback) {
+    this.setState(state => ({valueCategory: callback(state.valueCategory)}));
+  }
+
+  setItems(callback) {
+    this.setState(state => ({categories: callback(state.categories)}));
+  }
+
+  updateAnswers(value) {
+    this.setState({answers: value});
+  }
+
   render() {
     const state = this.state;
     let heightScreen = Dimensions.get('window').height;
@@ -83,8 +119,34 @@ class NewPost extends React.Component {
           justifyContent={'flex-start'}
           alignItems={'center'}>
           <Space size={30} />
-          <Space size={18} />
-          <ButtonLarge title="Publier" onPress={this.logout.bind(this)} />
+          <DropDownPicker
+            zIndex={999}
+            open={state.openDropdown}
+            value={state.valueCategory}
+            items={state.categories}
+            placeholderStyle={{
+              color: 'grey',
+              fontWeight: 'bold',
+            }}
+            containerStyle={{maxWidth: '90%'}}
+            placeholder={'Séléctionner une catégorie'}
+            setOpen={this.setOpenDropdown.bind(this)}
+            setValue={this.setValue.bind(this)}
+            setItems={this.setItems.bind(this)}
+          />
+          <Space size={30} />
+          <InputText
+            isTextInput
+            onValueChange={text => {
+              this.updateAnswers(text);
+            }}
+            value={this.state.answers}
+            placeholder={'Ecrire une légende...'}
+          />
+          <Space size={45} />
+          <Space size={45} />
+          <Space size={300} />
+          <ButtonLarge title="Publier" onPress={() => null} />
           <Space size={30} />
         </Container>
       </KeyboardAvoidingView>

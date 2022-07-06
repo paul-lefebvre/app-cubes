@@ -33,6 +33,7 @@ class App extends React.Component {
         'Warning:',
         'Remote debugger',
         'Using Math.random',
+        'VirtualizedLists should never',
         'scrollTo(y, x, animated)',
       ]);
     } else {
