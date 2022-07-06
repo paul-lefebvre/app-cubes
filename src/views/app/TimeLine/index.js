@@ -185,6 +185,8 @@ class TimeLine extends React.Component {
             firstname={item.resOwner.firstname}
             lastname={item.resOwner.lastname}
             answers={item.answers}
+            comments={item.comments}
+            category={item.category}
           />
           <Space size={30} />
         </>

@@ -6,7 +6,11 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as Color from '../config/color';
 import Space from '../layout/Space';
 import Avatar from '../avatar/Avatar';
-import {faEllipsisV, faGripVertical, faPaperPlane} from '@fortawesome/free-solid-svg-icons';
+import {
+  faEllipsisV,
+  faGripVertical,
+  faPaperPlane,
+} from '@fortawesome/free-solid-svg-icons';
 
 import {faCommentDots, faHeart} from '@fortawesome/free-regular-svg-icons';
 
@@ -56,27 +60,30 @@ export default class PostCard extends React.Component {
           </Text>
         </View>
         <View style={styles.footer}>
+          <Space width={9} />
           <TouchableOpacity style={styles.actions}>
+            <Text style={styles.counterText}>3</Text>
             <FontAwesomeIcon
               icon={faHeart}
               color={Color.darkMagenta}
               size={27}
             />
           </TouchableOpacity>
+          <Space width={30} />
           <TouchableOpacity style={styles.actions}>
+            <Text style={styles.counterText}>3</Text>
             <FontAwesomeIcon
               icon={faCommentDots}
               color={Color.darkBlue}
               size={27}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actions}>
-            <FontAwesomeIcon
-              icon={faPaperPlane}
-              color={Color.darkBlue}
-              size={27}
-            />
-          </TouchableOpacity>
+          <Space width={45} />
+          {this.props.category ? (
+            <Text style={[styles.text, styles.category]}>
+              {this.props.category.title}
+            </Text>
+          ) : null}
         </View>
       </View>
     );
@@ -130,6 +137,8 @@ const styles = StyleSheet.create({
   },
   actions: {
     flex: 0.18,
+    justifyContent: 'center',
+    flexDirection: 'row',
     alignItems: 'center',
   },
   resImg: {
@@ -146,5 +155,22 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-SemiBold',
     letterSpacing: 0.1,
     color: 'black',
+  },
+  counterText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingHorizontal: 6,
+    backgroundColor: Color.gray,
+  },
+  category: {
+    width: 120,
+    borderRadius: 21,
+    textAlign: 'center',
+    backgroundColor: Color.blue,
+    color: 'white',
+    right: 21,
+    bottom: 15,
+    position: 'absolute',
+    paddingVertical: 3,
   },
 });
