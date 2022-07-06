@@ -32,6 +32,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import AsyncStorage from '@react-native-community/async-storage';
 import Avatar from '../../../components/avatar/Avatar';
 import InputText from '../../../components/inputs/InputText';
+import Dialog, {DialogContent, SlideAnimation} from 'react-native-popup-dialog';
 
 class NewPost extends React.Component {
   constructor(props) {
@@ -44,6 +45,8 @@ class NewPost extends React.Component {
       answers: null,
       canPublish: false,
       picture: null,
+      errorMsg: '',
+      published: false,
     };
   }
 
@@ -68,6 +71,44 @@ class NewPost extends React.Component {
       categories[index].value = category.cat_id;
     });
     this.setState({categories: categories});
+  }
+
+  /**
+   *  create new publication with optionnal medias
+   */
+  async createPublication() {
+    this.setState({errorMsg: ''});
+
+    if (!this.state.valueCategory || !this.state.answers) {
+      this.setState({
+        errorMsg: 'Veuillez spécifier une catégorie et une légende.',
+      });
+      return;
+    }
+
+    let result = await fetch(API_URL + '/api/ressources', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        usr_id: this.state.user.usr_id,
+        cat_id: this.state.valueCategory,
+        answers: this.state.answers,
+      }),
+    }).then(res => {
+      return res;
+    });
+
+    if (result.ok) {
+      this.setState({published: true});
+      setTimeout(() => {
+        this.setState({published: false});
+      }, 5000);
+      setTimeout(() => {
+        this.props.navigation.navigate('TimeLine');
+      }, 1500);
+    }
   }
 
   headerRender() {
@@ -217,10 +258,37 @@ class NewPost extends React.Component {
               title={'Charger un média'}
             />
           </View>
-          <Space size={45} />
-          <ButtonLarge title="Publier" onPress={() => null} />
+          <Space size={20} />
+          <Text style={styles.errorMsg}>
+            {this.state.errorMsg ? this.state.errorMsg : ''}
+          </Text>
+          <Space size={20} />
+          <ButtonLarge
+            title="Publier"
+            onPress={this.createPublication.bind(this)}
+          />
           <Space size={30} />
         </Container>
+        <Dialog
+          visible={this.state.published}
+          dialogAnimation={
+            new SlideAnimation({
+              slideFrom: 'bottom',
+            })
+          }
+          onTouchOutside={() => {
+            this.setState({published: false});
+          }}>
+          <DialogContent>
+            <Space size={12} />
+            <Text style={styles.title}>Félicitation!</Text>
+            <Space size={30} />
+            <Text style={styles.smallText}>
+              Votre publication a bien été mise en ligne
+            </Text>
+            <Space size={12} />
+          </DialogContent>
+        </Dialog>
       </KeyboardAvoidingView>
     );
   }

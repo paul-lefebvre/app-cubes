@@ -179,23 +179,25 @@ class TimeLine extends React.Component {
   renderPosts() {
     console.log(this.state.publications);
     return this.state.publications.map(item => {
-      let ownPost = item.resOwner.usr_id === this.state.user.usr_id ? true : false;
-      return (
-        <>
-          <PostCard
-            id={item.res_id}
-            ownPost={ownPost}
-            owner={item.resOwner}
-            user={this.state.user}
-            firstname={item.resOwner.firstname}
-            lastname={item.resOwner.lastname}
-            answers={item.answers}
-            comments={item.comments}
-            category={item.category}
-          />
-          <Space size={30} />
-        </>
-      );
+      if (item.resOwner) {
+        let ownPost = item.resOwner.usr_id === this.state.user.usr_id ? true : false;
+        return (
+          <>
+            <PostCard
+              id={item.res_id}
+              ownPost={ownPost}
+              owner={item.resOwner}
+              user={this.state.user}
+              firstname={item.resOwner.firstname}
+              lastname={item.resOwner.lastname}
+              answers={item.answers}
+              comments={item.comments}
+              category={item.category}
+            />
+            <Space size={30} />
+          </>
+        );
+      }
     });
   }
 
@@ -204,7 +206,6 @@ class TimeLine extends React.Component {
     const propsNav = this.props.navigation.state.params;
 
     let heightScreen = Dimensions.get('window').height;
-    let widthScreen = Dimensions.get('window').width;
     return (
       <KeyboardAvoidingView
         keyboardVerticalOffset={-heightScreen / 2.5}

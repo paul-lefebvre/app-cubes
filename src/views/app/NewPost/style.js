@@ -66,4 +66,9 @@ export default StyleSheet.create({
     width: '40%',
     backgroundColor: Color.blue,
   },
+  errorMsg: {
+    color: 'red',
+    width: '75%',
+    textAlign: 'center',
+  },
 });

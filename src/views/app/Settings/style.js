@@ -67,5 +67,5 @@ export default StyleSheet.create({
     color: 'red',
     width: '75%',
     textAlign: 'center',
-  }
+  },
 });
