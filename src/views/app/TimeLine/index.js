@@ -51,7 +51,7 @@ class TimeLine extends React.Component {
       user: null,
       isFirstConn: false,
       suggests: null,
-      publications: null,
+      publications: [],
     };
   }
 
@@ -109,20 +109,6 @@ class TimeLine extends React.Component {
           <FontAwesomeIcon icon={faEnvelopeSquare} size={27} color={'white'} />
         </TouchableOpacity>
       </View>
-    );
-  }
-
-  async renderPosts() {
-    const state = this.state;
-    return (
-      <>
-        {state.publications.map((item, index) => {
-          <>
-            <PostCard firstname={'null'} lastname={'null'} />
-            <Space size={30} />
-          </>;
-        })}
-      </>
     );
   }
 
@@ -190,6 +176,22 @@ class TimeLine extends React.Component {
     });
   }
 
+  renderPosts() {
+    console.log(this.state.publications);
+    return this.state.publications.map((item, index) => {
+      return (
+        <>
+          <PostCard
+            firstname={item.resOwner.firstname}
+            lastname={item.resOwner.lastname}
+            answers={item.answers}
+          />
+          <Space size={30} />
+        </>
+      );
+    });
+  }
+
   render() {
     const state = this.state;
     const propsNav = this.props.navigation.state.params;
@@ -220,14 +222,7 @@ class TimeLine extends React.Component {
             {state.suggests ? this.renderSuggests() : null}
           </ScrollView>
           <Space size={30} />
-          {state.publications
-            ? state.publications.map((item, index) => {
-                <>
-                  <PostCard firstname={'null'} lastname={'null'} />
-                  <Space size={30} />
-                </>;
-              })
-          : null}
+          {state.publications.length > 0 ? this.renderPosts() : null}
         </Container>
       </KeyboardAvoidingView>
     );

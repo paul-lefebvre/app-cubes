@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 
@@ -29,7 +30,7 @@ export default class PostCard extends React.Component {
         <View style={styles.header}>
           <TouchableOpacity style={styles.profil}>
             <Avatar />
-            <Text style={styles.text}>
+            <Text style={[styles.text, {paddingLeft: 21}]}>
               {this.props.firstname} {this.props.lastname}
             </Text>
           </TouchableOpacity>
@@ -49,6 +50,11 @@ export default class PostCard extends React.Component {
               : require('../../assets/img/logo.png')
           }
         />
+        <View style={styles.answers}>
+          <Text style={styles.text}>
+            {this.props.answers ? this.props.answers : '...'}
+          </Text>
+        </View>
         <View style={styles.footer}>
           <TouchableOpacity style={styles.actions}>
             <FontAwesomeIcon
@@ -79,7 +85,8 @@ export default class PostCard extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: 300,
+    maxHeight: 600,
+    minHeight: 450,
     width: '95%',
     borderRadius: 18,
     shadowColor: '#000',
@@ -129,6 +136,10 @@ const styles = StyleSheet.create({
     flex: 0.9,
     width: '100%',
     resizeMode: 'contain',
+  },
+  answers: {
+    backgroundColor: 'white',
+    padding: 12,
   },
   text: {
     fontSize: 15,
