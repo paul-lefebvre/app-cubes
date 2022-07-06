@@ -5,6 +5,14 @@ export default StyleSheet.create({
   container: {
     flex: 1,
   },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    textAlign: 'left',
+    paddingHorizontal: 12,
+    color: 'black',
+    borderRadius: 6,
+  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -52,5 +60,10 @@ export default StyleSheet.create({
     fontSize: 21,
     textAlign: 'center',
     fontFamily: 'Montserrat-Bold',
+  },
+  pickerBtn: {
+    height: 180,
+    width: '40%',
+    backgroundColor: Color.blue,
   },
 });

@@ -179,8 +179,7 @@ class TimeLine extends React.Component {
   renderPosts() {
     console.log(this.state.publications);
     return this.state.publications.map(item => {
-      let ownPost =
-        item.resOwner.usr_id === this.state.user.usr_id ? true : false;
+      let ownPost = item.resOwner.usr_id === this.state.user.usr_id ? true : false;
       return (
         <>
           <PostCard

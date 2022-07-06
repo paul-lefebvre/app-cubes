@@ -75,6 +75,8 @@ class InputText extends React.Component {
           onChangeText={content => this.props.onValueChange(content)}
           secureTextEntry={this.state.secureInput}
           autoCapitalize={'none'}
+          editable={this.props.disabled ? false : true}
+          selectTextOnFocus={this.props.disabled ? false : true}
           multiline={this.state.isTextInput ? true : false}
           numberOfLines={this.state.isTextInput ? 6 : 1}
           autoCorrect={false}

@@ -7,6 +7,7 @@ import {
   View,
   Image,
   Dimensions,
+  PermissionsAndroid,
   KeyboardAvoidingView,
 } from 'react-native';
 import styles from './style';
@@ -26,6 +27,7 @@ import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 
 //PACKAGES
 import I18n from '../../../i18n/i18n';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import AsyncStorage from '@react-native-community/async-storage';
 import Avatar from '../../../components/avatar/Avatar';
@@ -40,6 +42,8 @@ class NewPost extends React.Component {
       valueCategory: null,
       categories: [],
       answers: null,
+      canPublish: false,
+      picture: null,
     };
   }
 
@@ -104,10 +108,43 @@ class NewPost extends React.Component {
     this.setState({answers: value});
   }
 
+  async takePic() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Permission',
+          message:
+            'Nous avons besoin de la permission pour votre appareil photo.',
+          buttonNegative: 'Annuler',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        const result = await launchCamera({
+          saveToPhotos: true,
+        });
+        this.setState({picture: result});
+      } else {
+        this.setState({errorMsg: 'Permission refusée.'});
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
+  async uploadFromLib() {
+    const result = await launchImageLibrary({
+      mediaType: 'photo',
+      selectionLimit: 1,
+      noData: true,
+    });
+    this.setState({picture: result});
+  }
+
   render() {
     const state = this.state;
     let heightScreen = Dimensions.get('window').height;
-    let widthScreen = Dimensions.get('window').width;
     return (
       <KeyboardAvoidingView
         keyboardVerticalOffset={-heightScreen / 2.5}
@@ -115,6 +152,7 @@ class NewPost extends React.Component {
         behavior="height">
         {this.headerRender()}
         <Container
+          scrollEnabled
           backgroundColor={Color.colorBackground}
           justifyContent={'flex-start'}
           alignItems={'center'}>
@@ -143,9 +181,43 @@ class NewPost extends React.Component {
             value={this.state.answers}
             placeholder={'Ecrire une légende...'}
           />
+          <Space size={30} />
+          <Text style={styles.title}>Ajouter un média</Text>
+          <Space size={12} />
+          {state.picture !== null ? (
+            <>
+              <Image
+                source={{uri: state.picture.assets[0].uri}}
+                style={{width: '90%', height: 300, borderRadius: 12}}
+              />
+              <Space size={45} />
+            </>
+          ) : (
+            <InputText
+              isTextInput
+              disabled
+              onValueChange={text => {
+                this.updateAnswers(text);
+              }}
+              value={this.state.answers}
+              placeholder={'Visualisez votre média ici.'}
+            />
+          )}
+          <Space size={30} />
+          <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+            <ButtonLarge
+              onPress={this.takePic.bind(this)}
+              style={styles.pickerBtn}
+              title={'Prendre une photo'}
+            />
+            <Space width={45} />
+            <ButtonLarge
+              onPress={this.uploadFromLib.bind(this)}
+              style={styles.pickerBtn}
+              title={'Charger un média'}
+            />
+          </View>
           <Space size={45} />
-          <Space size={45} />
-          <Space size={300} />
           <ButtonLarge title="Publier" onPress={() => null} />
           <Space size={30} />
         </Container>
