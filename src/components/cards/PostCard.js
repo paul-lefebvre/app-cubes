@@ -6,26 +6,110 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as Color from '../config/color';
 import Space from '../layout/Space';
 import Avatar from '../avatar/Avatar';
-import {
-  faEllipsisV,
-  faGripVertical,
-  faPaperPlane,
-} from '@fortawesome/free-solid-svg-icons';
-
+import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
 import {faCommentDots, faHeart} from '@fortawesome/free-regular-svg-icons';
+import {faHeart as FasHeart} from '@fortawesome/free-solid-svg-icons';
+
+import {API_URL} from '../../config/utils';
 
 export default class PostCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: this.props.loading ? this.props.loading : false,
+      likes: [],
+      isLiked: false,
+      ownLike: null,
     };
   }
 
-  async onPress() {
-    this.setState({loading: true});
-    await this.props.onPress();
-    this.setState({loading: false});
+  async componentDidMount() {
+    await this.handleLikes();
+  }
+
+  async updateLike() {
+    if (this.state.isLiked === true) {
+      await this.removeLike();
+    } else {
+      await this.newLike();
+    }
+  }
+
+  async removeLike() {
+    try {
+      let response = await fetch(
+        API_URL + '/api/likes/' + this.state.ownLike.lik_id,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      ).then(res => {
+        return res;
+      });
+      if (response.ok) {
+        this.setState({isLiked: false});
+        this.setState({ownLike: null});
+        this.setState({likes: []});
+        /* await this.handleLikes(); */
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async newLike() {
+    try {
+      let response = await fetch(API_URL + '/api/likes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          usr_id: this.props.user.usr_id,
+          entity_id: this.props.id,
+          is_post: 1,
+          is_event: 0,
+          is_survey: 0,
+          is_comment: 0,
+        }),
+      }).then(res => {
+        return res;
+      });
+      if (response.ok) {
+        this.setState({isLiked: true});
+        await this.handleLikes();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async handleLikes() {
+    let ownLikes = [];
+    let likes = await fetch(API_URL + '/api/likes', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        return res;
+      });
+
+    likes.forEach((like, index) => {
+      if (like.entity_id === this.props.id && like.is_post) {
+        ownLikes.push(like);
+        if (like.usr_id === this.props.user.usr_id) {
+          this.setState({isLiked: true});
+          this.setState({ownLike: like});
+        }
+      }
+    });
+
+    this.setState({likes: ownLikes});
   }
 
   render() {
@@ -61,23 +145,34 @@ export default class PostCard extends React.Component {
         </View>
         <View style={styles.footer}>
           <Space width={9} />
-          <TouchableOpacity style={styles.actions}>
-            <Text style={styles.counterText}>3</Text>
-            <FontAwesomeIcon
-              icon={faHeart}
-              color={Color.darkMagenta}
-              size={27}
-            />
-          </TouchableOpacity>
-          <Space width={30} />
-          <TouchableOpacity style={styles.actions}>
-            <Text style={styles.counterText}>3</Text>
-            <FontAwesomeIcon
-              icon={faCommentDots}
-              color={Color.darkBlue}
-              size={27}
-            />
-          </TouchableOpacity>
+          {!this.props.ownPost ? (
+            <>
+              <TouchableOpacity
+                style={styles.actions}
+                onPress={this.updateLike.bind(this)}>
+                <Text style={styles.counterText}>
+                  {this.state.likes.length}
+                </Text>
+                <FontAwesomeIcon
+                  icon={this.state.isLiked ? FasHeart : faHeart}
+                  color={Color.darkMagenta}
+                  size={27}
+                />
+              </TouchableOpacity>
+              <Space width={30} />
+              <TouchableOpacity style={styles.actions}>
+                <Text style={styles.counterText}>
+                  {this.props.comments.length}
+                </Text>
+                <FontAwesomeIcon
+                  icon={faCommentDots}
+                  color={Color.darkBlue}
+                  size={27}
+                />
+              </TouchableOpacity>
+            </>
+          ) : null}
+
           <Space width={45} />
           {this.props.category ? (
             <Text style={[styles.text, styles.category]}>
