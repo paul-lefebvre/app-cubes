@@ -107,7 +107,7 @@ class NewPost extends React.Component {
       }, 5000);
       setTimeout(() => {
         this.props.navigation.navigate('TimeLine');
-      }, 1500);
+      }, 7000);
     }
   }
 

@@ -25,7 +25,6 @@ export default class PostCard extends React.Component {
 
   async componentDidMount() {
     await this.handleLikes();
-    console.log(this.props.navigation);
   }
 
   async updateLike() {

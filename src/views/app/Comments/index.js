@@ -43,7 +43,8 @@ class Comments extends React.Component {
       published: false,
       ressource: this.props.navigation.state.params.ressource
         ? this.props.navigation.state.params.ressource
-        : null,
+        : [],
+      loading: true,
     };
   }
 
@@ -52,13 +53,58 @@ class Comments extends React.Component {
     this.setState({
       user: user,
     });
+
+    if (this.state.ressource) {
+      let ressource = this.state.ressource;
+      await ressource.comments.map(async (comment, index) => {
+        ressource.comments[index].owner = await fetch(
+          API_URL + '/api/users/' + comment.id_owner,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        )
+          .then(res => res.json())
+          .then(res => {
+            return res;
+          });
+      });
+    }
   }
 
   /**
    *  create new comment or comment's response
    */
   async createComment() {
-
+    try {
+      let res = await fetch(API_URL + '/api/comments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          res_id: this.state.ressource.res_id,
+          answers: this.state.newComment,
+          id_owner: this.state.user.usr_id,
+          is_response: 0,
+        }),
+      }).then(res => {
+        return res;
+      });
+      if (res.ok) {
+        this.setState({published: true});
+        setTimeout(() => {
+          this.setState({published: false});
+        }, 5000);
+        setTimeout(() => {
+          this.props.navigation.navigate('TimeLine');
+        }, 7000);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   headerRender() {
@@ -75,6 +121,37 @@ class Comments extends React.Component {
         <Text style={styles.pseudo}>Commentaires</Text>
       </View>
     );
+  }
+
+  renderCurrentComments() {
+    return this.state.ressource.comments.map(comment => {
+      return (
+        <View style={styles.comment}>
+          <Space size={3} />
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Avatar />
+            <Space width={12} />
+            <Text style={styles.title}>
+              {comment.owner ? comment.owner.firstname : ''}{' '}
+              {comment.owner ? comment.owner.lastname : ''}
+            </Text>
+            <Space width={3} />
+            <Text
+              style={{
+                backgroundColor: Color.blue,
+                color: 'white',
+                padding: 4,
+                borderRadius: 9,
+              }}>
+              {comment.owner ? comment.owner.pseudo : ''}
+            </Text>
+          </View>
+          <Space size={9} />
+          <Text style={styles.smallText}>{comment.answers}</Text>
+          <Space size={12} />
+        </View>
+      );
+    });
   }
 
   updateNewComment(value) {
@@ -96,6 +173,10 @@ class Comments extends React.Component {
           justifyContent={'flex-start'}
           alignItems={'center'}>
           <Space size={30} />
+          <View style={styles.comContainer}>
+            {this.state.ressource ? this.renderCurrentComments() : null}
+          </View>
+          <Space size={30} />
           <InputText
             isTextInput
             onValueChange={text => {
@@ -104,10 +185,6 @@ class Comments extends React.Component {
             value={this.state.newComment}
             placeholder={'Ecrire un commentaire...'}
           />
-          <Space size={30} />
-          <Text style={styles.errorMsg}>
-            {this.state.errorMsg ? this.state.errorMsg : ''}
-          </Text>
           <Space size={20} />
           <ButtonLarge
             title="Répondre"

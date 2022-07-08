@@ -5,6 +5,12 @@ export default StyleSheet.create({
   container: {
     flex: 1,
   },
+  comment: {
+    minWidth: '90%',
+    backgroundColor: 'white',
+    paddingHorizontal: 6,
+    borderRadius: 9,
+  },
   title: {
     fontWeight: 'bold',
     fontSize: 18,
