@@ -15,9 +15,7 @@ export default async datas => {
       mail: datas.mail,
       password: encryptedPassword,
     }),
-  })
-    .then(res => res.json())
-    .then(function (result) {
-      return result;
-    });
+  }).then(res => {
+    return res;
+  });
 };

@@ -163,6 +163,7 @@ class Settings extends React.Component {
         behavior="height">
         {this.headerRender()}
         <Container
+          scrollEnabled
           backgroundColor={Color.colorBackground}
           justifyContent={'flex-start'}
           alignItems={'center'}>
@@ -225,7 +226,7 @@ class Settings extends React.Component {
             />
           </NeomorphFlex>
 
-          <Space size={160} />
+          <Space size={90} />
           <ButtonLarge title="Déconnexion" onPress={this.logout.bind(this)} />
           <Space size={30} />
         </Container>

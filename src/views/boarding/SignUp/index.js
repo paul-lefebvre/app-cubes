@@ -188,7 +188,16 @@ class SignUp extends React.Component {
         password: this.state.password,
       };
       const response = await register(user);
-      console.log(response);
+      if (response.ok) {
+        const credentials = {
+          mail: this.state.mail,
+          password: this.state.password,
+        };
+        const respLogin = await login(credentials);
+        if (!respLogin.error) {
+          this.props.navigation.push('TimeLine');
+        }
+      }
     } else if (this.state.indexCard === 0) {
       const credentials = {
         mail: this.state.mail,

@@ -146,9 +146,11 @@ class Profil extends React.Component {
             <Space width={9} />
             <Avatar
               url={
-                API_URL +
-                '/public/upload/images/avatar/' +
-                state.user.avatar_img
+                state.user
+                  ? API_URL +
+                    '/public/upload/images/avatar/' +
+                    state.user.avatar_img
+                  : null
               }
               style={{width: 81, height: 81}}
               styleImg={{width: 81, height: 81}}

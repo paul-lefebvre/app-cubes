@@ -171,7 +171,11 @@ class TimeLine extends React.Component {
             firstname={item.firstname}
             lastname={item.lastname}
             pseudo={item.pseudo}
-            url={API_URL + '/public/upload/images/avatar/' + item.avatar_img}
+            url={
+              item.avatar_img
+                ? API_URL + '/public/upload/images/avatar/' + item.avatar_img
+                : '/public/upload/images/avatar/unknown.png'
+            }
           />
         );
       }
