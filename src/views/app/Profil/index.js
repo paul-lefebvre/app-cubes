@@ -6,6 +6,8 @@ import {
   Text,
   View,
   Image,
+  ScrollView,
+  RefreshControl,
   Dimensions,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -18,7 +20,7 @@ import {API_URL, appName} from '../../../config/utils';
 import * as Color from '../../../components/config/color';
 import Container from '../../../components/layout/Container';
 import ButtonLarge from '../../../components/buttons/ButtonLarge';
-
+import PostCard from '../../../components/cards/PostCard';
 import Space from '../../../components/layout/Space';
 
 //ICON
@@ -36,11 +38,14 @@ class Profil extends React.Component {
     super(props);
     this.state = {
       user: '',
+      refreshing: false,
+      publications: [],
     };
   }
 
   async componentWillMount() {
     await this.getUser();
+    await this.getPublications();
   }
 
   async componentWillReceiveProps() {
@@ -73,6 +78,53 @@ class Profil extends React.Component {
         </TouchableOpacity>
       </View>
     );
+  }
+
+  async getPublications() {
+    let publications = await fetch(API_URL + '/api/ressources', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        return res;
+      });
+    this.setState({publications: publications});
+  }
+
+  async onRefresh() {
+    await this.getPublications();
+  }
+
+  renderPosts() {
+    return this.state.publications.map(item => {
+      if (item.resOwner) {
+        let ownPost =
+          item.resOwner.usr_id === this.state.user.usr_id ? true : false;
+        return (
+          <>
+            <PostCard
+              id={item.res_id}
+              ownPost={ownPost}
+              owner={item.resOwner}
+              user={this.state.user}
+              firstname={item.resOwner.firstname}
+              lastname={item.resOwner.lastname}
+              answers={item.answers}
+              comments={item.comments}
+              category={item.category}
+              url={item.media ? item.media.path : null}
+              ressource={item}
+              nav={this.props.navigation}
+            />
+            <Space size={30} />
+          </>
+        );
+      }
+    });
   }
 
   render() {
@@ -125,6 +177,29 @@ class Profil extends React.Component {
           </View>
 
           <Space size={30} />
+
+          <ScrollView
+            style={{
+              flex: 1,
+              width: '100%',
+            }}
+            contentContainerStyle={{
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+            }}
+            refreshControl={
+              <RefreshControl
+                enabled
+                size={'large'}
+                refreshing={state.refreshing}
+                colors={[Color.darkMagenta]}
+                onRefresh={this.getPublications.bind(this)}
+              />
+            }>
+            <Space size={30} />
+            {state.publications.length > 0 ? this.renderPosts() : null}
+          </ScrollView>
+
         </Container>
       </KeyboardAvoidingView>
     );
