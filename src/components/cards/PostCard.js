@@ -135,7 +135,7 @@ export default class PostCard extends React.Component {
           source={
             this.props.url
               ? this.props.url
-              : require('../../assets/img/logo.png')
+              : require('../../assets/img/default.jpeg')
           }
         />
         <View style={styles.answers}>
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
   resImg: {
     flex: 0.9,
     width: '100%',
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
   answers: {
     backgroundColor: 'white',

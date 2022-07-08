@@ -162,14 +162,14 @@ const TabNavigator = createBottomTabNavigator(
         },
       ),
     },
-    Activity: {
+/*     Activity: {
       screen: createStackNavigator(
         {ActivityStackNavigator},
         {
           defaultNavigationOptions: noHeaderNav,
         },
       ),
-    },
+    }, */
     Profil: {
       screen: createStackNavigator(
         {ProfilStackNavigator},

@@ -181,6 +181,7 @@ class TimeLine extends React.Component {
     return this.state.publications.map(item => {
       if (item.resOwner) {
         let ownPost = item.resOwner.usr_id === this.state.user.usr_id ? true : false;
+        console.log(item);
         return (
           <>
             <PostCard
@@ -193,6 +194,7 @@ class TimeLine extends React.Component {
               answers={item.answers}
               comments={item.comments}
               category={item.category}
+              url={item.media ? item.media.path : null}
             />
             <Space size={30} />
           </>

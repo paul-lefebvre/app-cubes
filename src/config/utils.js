@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
 // CONSTANTS
-const appName = 'Links For Citizens';
-const versionApp = '0.0.2';
+const appName = 'Ressources Citoyennes';
+const versionApp = '0.0.3';
 
 let DEBUG_API_URL = 'http://192.168.1.29:3000';
 let API_URL = 'http://localhost:3000';
