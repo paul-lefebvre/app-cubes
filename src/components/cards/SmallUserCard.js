@@ -27,6 +27,12 @@ export default class SmallUserCard extends React.Component {
     this.setState({loading: false});
   }
 
+  async onSubscribe() {
+    this.setState({loading: true});
+    await this.props.onSubscribe();
+    this.setState({loading: false});
+  }
+
   render() {
     return (
       <TouchableOpacity
@@ -55,8 +61,8 @@ export default class SmallUserCard extends React.Component {
             <Space size={12} />
             <ButtonLarge
               style={{width: '90%', height: 45}}
-              onPress={() => null}
-              title={"S'abonner"}
+              onPress={this.onSubscribe.bind(this)}
+              title={this.props.isFollowed ? 'Abonné' : "S'abonner"}
             />
             <Space size={9} />
           </>

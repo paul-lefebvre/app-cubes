@@ -43,6 +43,12 @@ import InputSearch from '../../../components/inputs/InputSearch';
 import SmallUserCard from '../../../components/cards/SmallUserCard';
 import PostCard from '../../../components/cards/PostCard';
 import AsyncStorage from '@react-native-community/async-storage';
+import DropDownPicker from 'react-native-dropdown-picker';
+import Dialog, {
+  DialogContent,
+  DialogTitle,
+  SlideAnimation,
+} from 'react-native-popup-dialog';
 
 class TimeLine extends React.Component {
   constructor(props) {
@@ -54,7 +60,28 @@ class TimeLine extends React.Component {
       suggests: null,
       publications: [],
       refreshing: false,
+      userSub: null,
+      openDropdown: false,
+      valueRelation: null,
+      relations: [
+        {
+          label: 'Ami',
+          value: 0,
+        },
+      ],
     };
+  }
+
+  setOpenDropdown(open) {
+    this.setState({openDropdown: open});
+  }
+
+  setValue(callback) {
+    this.setState(state => ({valueRelation: callback(state.valueRelation)}));
+  }
+
+  setItems(callback) {
+    this.setState(state => ({relations: callback(state.relations)}));
   }
 
   async componentDidMount() {
@@ -62,6 +89,7 @@ class TimeLine extends React.Component {
     const user = JSON.parse(await AsyncStorage.getItem('user'));
     this.setState({
       user: user,
+      subscribeModal: false,
       suggests: suggests,
     });
 
@@ -163,14 +191,47 @@ class TimeLine extends React.Component {
     );
   }
 
+  async subscribeUser(user) {
+    this.setState({subscribeModal: true});
+    this.setState({userSub: user});
+  }
+
+  async subscribeFriend(user) {
+    const result = await fetch(API_URL + '/api/relations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        follower_id: this.state.user.usr_id,
+        followed_id: user.usr_id,
+      }).then(res => {
+        return res;
+      }),
+    });
+    this.setState({subscribeModal: false});
+    this.setState({userSub: null});
+    const suggests = await suggest();
+    this.setState({suggests: suggests});
+  }
+
   renderSuggests() {
     return this.state.suggests.map((item, index) => {
+      let isFollowed = false;
       if (item.usr_id !== this.state.user.usr_id) {
+        item.abonnements.map(abonnement => {
+          if (abonnement.follower_id === this.state.user.usr_id) {
+            isFollowed = true;
+            console.log('abonné');
+          }
+        });
         return (
           <SmallUserCard
             firstname={item.firstname}
             lastname={item.lastname}
             pseudo={item.pseudo}
+            isFollowed={isFollowed}
+            onSubscribe={() => this.subscribeUser(item)}
             onPress={() => {
               this.props.navigation.push('OtherProfil', {user: item});
             }}
@@ -267,6 +328,50 @@ class TimeLine extends React.Component {
             {state.publications.length > 0 ? this.renderPosts() : null}
           </ScrollView>
         </Container>
+        <Dialog
+          visible={this.state.subscribeModal}
+          dialogAnimation={
+            new SlideAnimation({
+              slideFrom: 'bottom',
+            })
+          }
+          dialogStyle={{width: '90%'}}
+          onTouchOutside={() => {
+            this.setState({subscribeModal: false});
+          }}>
+          <DialogContent>
+            <Space size={12} />
+            <Text style={{fontWeight: 'bold', fontSize: 21, color: 'black'}}>
+              {state.userSub
+                ? state.userSub.firstname + ' ' + state.userSub.lastname
+                : ''}
+            </Text>
+            <Space size={30} />
+            <Text style={styles.smallText}>Séléctionnez votre relation</Text>
+            <Space size={12} />
+            <DropDownPicker
+              zIndex={9999}
+              open={state.openDropdown}
+              value={state.valueRelation}
+              items={state.relations}
+              placeholderStyle={{
+                color: 'grey',
+                fontWeight: 'bold',
+              }}
+              containerStyle={{maxWidth: '90%'}}
+              placeholder={'Séléctionner une relation'}
+              setOpen={this.setOpenDropdown.bind(this)}
+              setValue={this.setValue.bind(this)}
+              setItems={this.setItems.bind(this)}
+            />
+            <Space size={90} />
+            <ButtonLarge
+              title={"S'abonner"}
+              style={{width: '90%'}}
+              onPress={() => this.subscribeFriend.bind(this)}
+            />
+          </DialogContent>
+        </Dialog>
       </KeyboardAvoidingView>
     );
   }
