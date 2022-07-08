@@ -100,29 +100,52 @@ class Profil extends React.Component {
   }
 
   renderPosts() {
+    let alreadyNonDisplayed = false;
     return this.state.publications.map(item => {
       if (item.resOwner) {
         let ownPost =
           item.resOwner.usr_id === this.state.user.usr_id ? true : false;
-        return (
-          <>
-            <PostCard
-              id={item.res_id}
-              ownPost={ownPost}
-              owner={item.resOwner}
-              user={this.state.user}
-              firstname={item.resOwner.firstname}
-              lastname={item.resOwner.lastname}
-              answers={item.answers}
-              comments={item.comments}
-              category={item.category}
-              url={item.media ? item.media.path : null}
-              ressource={item}
-              nav={this.props.navigation}
-            />
-            <Space size={30} />
-          </>
-        );
+        if (ownPost) {
+          return (
+            <>
+              <PostCard
+                id={item.res_id}
+                ownPost={ownPost}
+                owner={item.resOwner}
+                user={this.state.user}
+                firstname={item.resOwner.firstname}
+                lastname={item.resOwner.lastname}
+                answers={item.answers}
+                comments={item.comments}
+                category={item.category}
+                url={item.media ? item.media.path : null}
+                ressource={item}
+                nav={this.props.navigation}
+              />
+              <Space size={30} />
+            </>
+          );
+        } else if (!alreadyNonDisplayed) {
+          alreadyNonDisplayed = true;
+          return (
+            <>
+              <Space size={30} />
+              <Text
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: 21,
+                  backgroundColor: Color.blue,
+                  color: 'white',
+                  borderRadius: 9,
+                  padding: 30,
+                }}>
+                Vous n'avez pas encore de publications.
+              </Text>
+            </>
+          );
+        }
       }
     });
   }
@@ -201,7 +224,6 @@ class Profil extends React.Component {
             <Space size={30} />
             {state.publications.length > 0 ? this.renderPosts() : null}
           </ScrollView>
-
         </Container>
       </KeyboardAvoidingView>
     );
