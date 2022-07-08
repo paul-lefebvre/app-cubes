@@ -100,7 +100,26 @@ class Profil extends React.Component {
   }
 
   renderPosts() {
-    let alreadyNonDisplayed = false;
+    if (this.state.publications.length === 0) {
+      return (
+        <>
+          <Space size={30} />
+          <Text
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontSize: 21,
+              backgroundColor: Color.blue,
+              color: 'white',
+              borderRadius: 9,
+              padding: 30,
+            }}>
+            Vous n'avez pas encore de publications.
+          </Text>
+        </>
+      );
+    }
     return this.state.publications.map(item => {
       if (item.resOwner) {
         let ownPost =
@@ -123,27 +142,6 @@ class Profil extends React.Component {
                 nav={this.props.navigation}
               />
               <Space size={30} />
-            </>
-          );
-        }
-        if (!alreadyNonDisplayed) {
-          alreadyNonDisplayed = true;
-          return (
-            <>
-              <Space size={30} />
-              <Text
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  fontSize: 21,
-                  backgroundColor: Color.blue,
-                  color: 'white',
-                  borderRadius: 9,
-                  padding: 30,
-                }}>
-                Vous n'avez pas encore de publications.
-              </Text>
             </>
           );
         }

@@ -116,7 +116,11 @@ export default class PostCard extends React.Component {
     return (
       <View style={[styles.container, this.props.style]}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.profil}>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.nav.push('OtherProfil', {user: this.props.owner})
+            }
+            style={styles.profil}>
             <Avatar />
             <Text style={[styles.text, {paddingLeft: 21}]}>
               {this.props.firstname} {this.props.lastname}

@@ -162,20 +162,24 @@ class OtherProfil extends React.Component {
             />
             <View style={styles.statContainer}>
               <Text style={styles.numbers}>
-                {state.profil ? state.profil.publications.length : '?'}
+                {state.profil.publications
+                  ? state.profil.publications.length
+                  : '?'}
               </Text>
               <Text style={styles.smallText}>Publications</Text>
             </View>
 
             <View style={styles.statContainer}>
               <Text style={styles.numbers}>
-                {state.profil ? state.profil.abonnements.length : '?'}
+                {state.profil.publications
+                  ? state.profil.abonnements.length
+                  : '?'}
               </Text>
               <Text style={styles.smallText}>Abonnements</Text>
             </View>
             <View style={styles.statContainer}>
               <Text style={styles.numbers}>
-                {state.profil ? state.profil.abonnes.length : '?'}
+                {state.profil.publications ? state.profil.abonnes.length : '?'}
               </Text>
               <Text textBreakStrategy="highQuality" style={styles.smallText}>
                 Abonnés
