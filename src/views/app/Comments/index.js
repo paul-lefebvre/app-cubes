@@ -33,6 +33,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Avatar from '../../../components/avatar/Avatar';
 import InputText from '../../../components/inputs/InputText';
 import Dialog, {DialogContent, SlideAnimation} from 'react-native-popup-dialog';
+import {faPaperPlane} from '@fortawesome/free-solid-svg-icons';
 
 class Comments extends React.Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class Comments extends React.Component {
         ? this.props.navigation.state.params.ressource
         : [],
       loading: true,
+      newResponse: '',
     };
   }
 
@@ -149,15 +151,75 @@ class Comments extends React.Component {
           <Space size={9} />
           <Text style={styles.smallText}>{comment.answers}</Text>
           <Space size={12} />
+          <View
+            style={{flexDirection: 'row', alignItems: 'center', width: '90%'}}>
+            <InputText
+              onValueChange={text => {
+                this.updateNewResponse(text);
+              }}
+              value={this.state.newResponse}
+              style={{height: 50, flex: 0.3}}
+              placeholder={'Répondre...'}
+            />
+            <Space width={9} />
+            <TouchableOpacity
+              onPress={() => this.responseToComment(comment.com_id)}
+              style={{
+                height: 21,
+                width: 21,
+                padding: 21,
+                borderRadius: 60,
+                alignItems: 'center',
+                backgroundColor: Color.darkBlue,
+                alignContent: 'center',
+                justifyContent: 'center',
+              }}>
+              <FontAwesomeIcon size={21} icon={faPaperPlane} color={'white'} />
+            </TouchableOpacity>
+          </View>
+
+          <Space size={9} />
         </View>
       );
     });
+  }
+
+  async responseToComment(com_id) {
+    const result = await fetch(API_URL + '/api/comments',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        answers: this.state.newResponse,
+        res_id: this.state.ressource.res_id,
+        id_owner: this.state.user.usr_id,
+        is_response: 1,
+        id_response_to_usr: com_id,
+      }),
+    }).then(res => {
+      return res;
+    });
+
+    if (result.ok) {
+      this.setState({published: true});
+      setTimeout(() => {
+        this.setState({published: false});
+      }, 5000);
+      setTimeout(() => {
+        this.props.navigation.navigate('TimeLine');
+      }, 7000);
+    }
   }
 
   updateNewComment(value) {
     this.setState({newComment: value});
   }
 
+  updateNewResponse(value) {
+    this.setState({newResponse: value});
+  }
+  
   render() {
     const state = this.state;
     let heightScreen = Dimensions.get('window').height;
