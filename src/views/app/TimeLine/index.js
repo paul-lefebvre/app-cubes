@@ -171,6 +171,9 @@ class TimeLine extends React.Component {
             firstname={item.firstname}
             lastname={item.lastname}
             pseudo={item.pseudo}
+            onPress={() => {
+              this.props.navigation.push('OtherProfil', {user: item});
+            }}
             url={
               item.avatar_img
                 ? API_URL + '/public/upload/images/avatar/' + item.avatar_img

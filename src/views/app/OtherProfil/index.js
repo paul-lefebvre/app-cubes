@@ -6,40 +6,48 @@ import {
   Text,
   View,
   Image,
+  Dimensions,
   ScrollView,
   RefreshControl,
-  Dimensions,
+  PermissionsAndroid,
   KeyboardAvoidingView,
 } from 'react-native';
 import styles from './style';
 
 //CONSTANTS
-import {API_URL, appName} from '../../../config/utils';
+import {API_URL} from '../../../config/utils';
 
 //LAYOUTS
 import * as Color from '../../../components/config/color';
 import Container from '../../../components/layout/Container';
 import ButtonLarge from '../../../components/buttons/ButtonLarge';
-import PostCard from '../../../components/cards/PostCard';
+import DropDownPicker from 'react-native-dropdown-picker';
 import Space from '../../../components/layout/Space';
+import PostCard from '../../../components/cards/PostCard';
 
 //ICON
-import {faCog} from '@fortawesome/free-solid-svg-icons';
-import {faPlusSquare} from '@fortawesome/free-regular-svg-icons';
+import {faArrowLeft, faShare} from '@fortawesome/free-solid-svg-icons';
 
 //PACKAGES
 import I18n from '../../../i18n/i18n';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import AsyncStorage from '@react-native-community/async-storage';
 import Avatar from '../../../components/avatar/Avatar';
+import InputText from '../../../components/inputs/InputText';
+import Dialog, {DialogContent, SlideAnimation} from 'react-native-popup-dialog';
+import {faPaperPlane} from '@fortawesome/free-solid-svg-icons';
 
-class Profil extends React.Component {
+class OtherProfil extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: '',
       refreshing: false,
       publications: [],
+      profil: this.props.navigation.state.params.user
+        ? this.props.navigation.state.params.user
+        : null,
     };
   }
 
@@ -48,36 +56,11 @@ class Profil extends React.Component {
     await this.getPublications();
   }
 
-  async componentWillReceiveProps() {
-    await this.getUser();
-  }
-
   async getUser() {
     const user = JSON.parse(await AsyncStorage.getItem('user'));
     this.setState({
       user: user,
     });
-  }
-
-  headerRender() {
-    const state = this.state;
-    return (
-      <View style={styles.header}>
-        <Text style={styles.pseudo}>{state.user ? state.user.pseudo : ''}</Text>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.push('NewPost')}
-          style={styles.button}
-          activeOpacity={0.6}>
-          <FontAwesomeIcon icon={faPlusSquare} size={27} color={'white'} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.push('Settings')}
-          style={styles.button}
-          activeOpacity={0.6}>
-          <FontAwesomeIcon icon={faCog} size={27} color={'white'} />
-        </TouchableOpacity>
-      </View>
-    );
   }
 
   async getPublications() {
@@ -99,12 +82,32 @@ class Profil extends React.Component {
     await this.getPublications();
   }
 
+  headerRender() {
+    const state = this.state;
+    return (
+      <View style={styles.header}>
+        <Space width={30} />
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('TimeLine')}
+          style={styles.button}
+          activeOpacity={0.6}>
+          <FontAwesomeIcon icon={faArrowLeft} size={27} color={'white'} />
+        </TouchableOpacity>
+        <Text style={styles.pseudo}>
+          {state.profil
+            ? state.profil.firstname + ' ' + state.profil.lastname
+            : ''}
+        </Text>
+      </View>
+    );
+  }
+
   renderPosts() {
     let alreadyNonDisplayed = false;
     return this.state.publications.map(item => {
       if (item.resOwner) {
         let ownPost =
-          item.resOwner.usr_id === this.state.user.usr_id ? true : false;
+          item.resOwner.usr_id === this.state.profil.usr_id ? true : false;
         if (ownPost) {
           return (
             <>
@@ -112,7 +115,7 @@ class Profil extends React.Component {
                 id={item.res_id}
                 ownPost={ownPost}
                 owner={item.resOwner}
-                user={this.state.user}
+                user={this.state.profil}
                 firstname={item.resOwner.firstname}
                 lastname={item.resOwner.lastname}
                 answers={item.answers}
@@ -126,27 +129,6 @@ class Profil extends React.Component {
             </>
           );
         }
-        if (!alreadyNonDisplayed) {
-          alreadyNonDisplayed = true;
-          return (
-            <>
-              <Space size={30} />
-              <Text
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  fontSize: 21,
-                  backgroundColor: Color.blue,
-                  color: 'white',
-                  borderRadius: 9,
-                  padding: 30,
-                }}>
-                Vous n'avez pas encore de publications.
-              </Text>
-            </>
-          );
-        }
       }
     });
   }
@@ -154,7 +136,6 @@ class Profil extends React.Component {
   render() {
     const state = this.state;
     let heightScreen = Dimensions.get('window').height;
-    let widthScreen = Dimensions.get('window').width;
     return (
       <KeyboardAvoidingView
         keyboardVerticalOffset={-heightScreen / 2.5}
@@ -170,10 +151,10 @@ class Profil extends React.Component {
             <Space width={9} />
             <Avatar
               url={
-                state.user
+                state.profil
                   ? API_URL +
                     '/public/upload/images/avatar/' +
-                    state.user.avatar_img
+                    state.profil.avatar_img
                   : null
               }
               style={{width: 81, height: 81}}
@@ -181,20 +162,20 @@ class Profil extends React.Component {
             />
             <View style={styles.statContainer}>
               <Text style={styles.numbers}>
-                {state.user ? state.user.publications.length : '?'}
+                {state.profil ? state.profil.publications.length : '?'}
               </Text>
               <Text style={styles.smallText}>Publications</Text>
             </View>
 
             <View style={styles.statContainer}>
               <Text style={styles.numbers}>
-                {state.user ? state.user.abonnements.length : '?'}
+                {state.profil ? state.profil.abonnements.length : '?'}
               </Text>
               <Text style={styles.smallText}>Abonnements</Text>
             </View>
             <View style={styles.statContainer}>
               <Text style={styles.numbers}>
-                {state.user ? state.user.abonnes.length : '?'}
+                {state.profil ? state.profil.abonnes.length : '?'}
               </Text>
               <Text textBreakStrategy="highQuality" style={styles.smallText}>
                 Abonnés
@@ -231,4 +212,4 @@ class Profil extends React.Component {
   }
 }
 
-export default Profil;
+export default OtherProfil;

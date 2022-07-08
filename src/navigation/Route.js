@@ -18,12 +18,14 @@ import Home from '../views/app/Home';
 import Settings from '../views/app/Settings';
 import NewPost from '../views/app/NewPost';
 import Comments from '../views/app/Comments';
+import OtherProfil from '../views/app/OtherProfil';
 
 // RES
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHome, faStream, faUser} from '@fortawesome/free-solid-svg-icons';
 import {NeomorphFlex} from 'react-native-neomorph-shadows';
 import * as Color from '../components/config/color';
+
 
 /**
  * DEFAULT OPTIONS NAV APP
@@ -102,6 +104,10 @@ const TimeLineStackNavigator = createStackNavigator({
   },
   Comments: {
     screen: Comments,
+    navigationOptions: defaultNav,
+  },
+  OtherProfil: {
+    screen: OtherProfil,
     navigationOptions: defaultNav,
   },
 });
