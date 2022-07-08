@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet, ScrollView, RefreshControl} from 'react-native';
 import {colorBackground} from '../config/color';
 
 class Container extends React.Component {

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  RefreshControl,
   Dimensions,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -52,6 +53,7 @@ class TimeLine extends React.Component {
       isFirstConn: false,
       suggests: null,
       publications: [],
+      refreshing: false,
     };
   }
 
@@ -204,6 +206,10 @@ class TimeLine extends React.Component {
     });
   }
 
+  async onRefresh() {
+    await this.getPublications();
+  }
+
   render() {
     const state = this.state;
     const propsNav = this.props.navigation.state.params;
@@ -218,22 +224,41 @@ class TimeLine extends React.Component {
         <Container
           backgroundColor={Color.colorBackground}
           justifyContent={'flex-start'}
-          scrollEnabled={true}
+          scrollEnabled={false}
           alignItems={'center'}>
-          <Space size={30} />
-          <InputSearch placeholder={'Rechercher'} />
-          {this.firstConnAddFriendsRender()}
-          <Space size={30} />
           <ScrollView
-            horizontal
-            nestedScrollEnabled
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.addFriendsContentContainer}
-            style={styles.addFriendsContainer}>
-            {state.suggests ? this.renderSuggests() : null}
+            style={{
+              flex: 1,
+              width: '100%',
+            }}
+            contentContainerStyle={{
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+            }}
+            refreshControl={
+              <RefreshControl
+                enabled
+                size={'large'}
+                refreshing={state.refreshing}
+                colors={[Color.darkMagenta]}
+                onRefresh={this.getPublications.bind(this)}
+              />
+            }>
+            <Space size={30} />
+            <InputSearch placeholder={'Rechercher'} />
+            {this.firstConnAddFriendsRender()}
+            <Space size={30} />
+            <ScrollView
+              horizontal
+              nestedScrollEnabled
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.addFriendsContentContainer}
+              style={styles.addFriendsContainer}>
+              {state.suggests ? this.renderSuggests() : null}
+            </ScrollView>
+            <Space size={30} />
+            {state.publications.length > 0 ? this.renderPosts() : null}
           </ScrollView>
-          <Space size={30} />
-          {state.publications.length > 0 ? this.renderPosts() : null}
         </Container>
       </KeyboardAvoidingView>
     );
