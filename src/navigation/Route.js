@@ -17,6 +17,7 @@ import Profil from '../views/app/Profil';
 import Home from '../views/app/Home';
 import Settings from '../views/app/Settings';
 import NewPost from '../views/app/NewPost';
+import Comments from '../views/app/Comments';
 
 // RES
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -99,6 +100,10 @@ const TimeLineStackNavigator = createStackNavigator({
     screen: NewPost,
     navigationOptions: defaultNav,
   },
+  Comments: {
+    screen: Comments,
+    navigationOptions: defaultNav,
+  },
 });
 
 /*
@@ -162,14 +167,6 @@ const TabNavigator = createBottomTabNavigator(
         },
       ),
     },
-/*     Activity: {
-      screen: createStackNavigator(
-        {ActivityStackNavigator},
-        {
-          defaultNavigationOptions: noHeaderNav,
-        },
-      ),
-    }, */
     Profil: {
       screen: createStackNavigator(
         {ProfilStackNavigator},

@@ -195,6 +195,8 @@ class TimeLine extends React.Component {
               comments={item.comments}
               category={item.category}
               url={item.media ? item.media.path : null}
+              ressource={item}
+              nav={this.props.navigation}
             />
             <Space size={30} />
           </>

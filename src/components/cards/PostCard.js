@@ -25,6 +25,7 @@ export default class PostCard extends React.Component {
 
   async componentDidMount() {
     await this.handleLikes();
+    console.log(this.props.navigation);
   }
 
   async updateLike() {
@@ -160,7 +161,13 @@ export default class PostCard extends React.Component {
                 />
               </TouchableOpacity>
               <Space width={30} />
-              <TouchableOpacity style={styles.actions}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.nav.navigate('Comments', {
+                    ressource: this.props.ressource,
+                  })
+                }
+                style={styles.actions}>
                 <Text style={styles.counterText}>
                   {this.props.comments.length}
                 </Text>

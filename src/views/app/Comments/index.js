@@ -13,7 +13,7 @@ import {
 import styles from './style';
 
 //CONSTANTS
-import {API_URL, appName} from '../../../config/utils';
+import {API_URL} from '../../../config/utils';
 
 //LAYOUTS
 import * as Color from '../../../components/config/color';
@@ -39,7 +39,11 @@ class Comments extends React.Component {
     super(props);
     this.state = {
       user: '',
-      comments: null,
+      newComment: '',
+      published: false,
+      ressource: this.props.navigation.state.params.ressource
+        ? this.props.navigation.state.params.ressource
+        : null,
     };
   }
 
@@ -54,38 +58,7 @@ class Comments extends React.Component {
    *  create new comment or comment's response
    */
   async createComment() {
-    this.setState({errorMsg: ''});
 
-    if (!this.state.valueCategory || !this.state.answers) {
-      this.setState({
-        errorMsg: 'Veuillez spécifier une catégorie et une légende.',
-      });
-      return;
-    }
-
-    let result = await fetch(API_URL + '/api/ressources', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        usr_id: this.state.user.usr_id,
-        cat_id: this.state.valueCategory,
-        answers: this.state.answers,
-      }),
-    }).then(res => {
-      return res;
-    });
-
-    if (result.ok) {
-      this.setState({published: true});
-      setTimeout(() => {
-        this.setState({published: false});
-      }, 5000);
-      setTimeout(() => {
-        this.props.navigation.navigate('TimeLine');
-      }, 1500);
-    }
   }
 
   headerRender() {
@@ -104,60 +77,8 @@ class Comments extends React.Component {
     );
   }
 
-  async logout() {
-    await AsyncStorage.removeItem('jwt');
-    await AsyncStorage.removeItem('user');
-    this.props.navigation.push('SignUpPage', {indexPage: 0});
-  }
-
-  setOpenDropdown(open) {
-    this.setState({openDropdown: open});
-  }
-
-  setValue(callback) {
-    this.setState(state => ({valueCategory: callback(state.valueCategory)}));
-  }
-
-  setItems(callback) {
-    this.setState(state => ({categories: callback(state.categories)}));
-  }
-
-  updateAnswers(value) {
-    this.setState({answers: value});
-  }
-
-  async takePic() {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        {
-          title: 'Permission',
-          message:
-            'Nous avons besoin de la permission pour votre appareil photo.',
-          buttonNegative: 'Annuler',
-          buttonPositive: 'OK',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        const result = await launchCamera({
-          saveToPhotos: true,
-        });
-        this.setState({picture: result});
-      } else {
-        this.setState({errorMsg: 'Permission refusée.'});
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  }
-
-  async uploadFromLib() {
-    const result = await launchImageLibrary({
-      mediaType: 'photo',
-      selectionLimit: 1,
-      noData: true,
-    });
-    this.setState({picture: result});
+  updateNewComment(value) {
+    this.setState({newComment: value});
   }
 
   render() {
@@ -175,74 +96,22 @@ class Comments extends React.Component {
           justifyContent={'flex-start'}
           alignItems={'center'}>
           <Space size={30} />
-          <DropDownPicker
-            zIndex={999}
-            open={state.openDropdown}
-            value={state.valueCategory}
-            items={state.categories}
-            placeholderStyle={{
-              color: 'grey',
-              fontWeight: 'bold',
-            }}
-            containerStyle={{maxWidth: '90%'}}
-            placeholder={'Séléctionner une catégorie'}
-            setOpen={this.setOpenDropdown.bind(this)}
-            setValue={this.setValue.bind(this)}
-            setItems={this.setItems.bind(this)}
-          />
-          <Space size={30} />
           <InputText
             isTextInput
             onValueChange={text => {
-              this.updateAnswers(text);
+              this.updateNewComment(text);
             }}
-            value={this.state.answers}
-            placeholder={'Ecrire une légende...'}
+            value={this.state.newComment}
+            placeholder={'Ecrire un commentaire...'}
           />
           <Space size={30} />
-          <Text style={styles.title}>Ajouter un média</Text>
-          <Space size={12} />
-          {state.picture !== null ? (
-            <>
-              <Image
-                source={{uri: state.picture.assets[0].uri}}
-                style={{width: '90%', height: 300, borderRadius: 12}}
-              />
-              <Space size={45} />
-            </>
-          ) : (
-            <InputText
-              isTextInput
-              disabled
-              onValueChange={text => {
-                this.updateAnswers(text);
-              }}
-              value={this.state.answers}
-              placeholder={'Visualisez votre média ici.'}
-            />
-          )}
-          <Space size={30} />
-          <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-            <ButtonLarge
-              onPress={this.takePic.bind(this)}
-              style={styles.pickerBtn}
-              title={'Prendre une photo'}
-            />
-            <Space width={45} />
-            <ButtonLarge
-              onPress={this.uploadFromLib.bind(this)}
-              style={styles.pickerBtn}
-              title={'Charger un média'}
-            />
-          </View>
-          <Space size={20} />
           <Text style={styles.errorMsg}>
             {this.state.errorMsg ? this.state.errorMsg : ''}
           </Text>
           <Space size={20} />
           <ButtonLarge
-            title="Publier"
-            onPress={this.createPublication.bind(this)}
+            title="Répondre"
+            onPress={this.createComment.bind(this)}
           />
           <Space size={30} />
         </Container>
@@ -261,7 +130,7 @@ class Comments extends React.Component {
             <Text style={styles.title}>Félicitation!</Text>
             <Space size={30} />
             <Text style={styles.smallText}>
-              Votre publication a bien été mise en ligne
+              Votre commentaire a bien été envoyé
             </Text>
             <Space size={12} />
           </DialogContent>
