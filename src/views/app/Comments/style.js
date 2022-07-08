@@ -10,6 +10,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     paddingHorizontal: 6,
     borderRadius: 9,
+    marginBottom: 30,
   },
   title: {
     fontWeight: 'bold',

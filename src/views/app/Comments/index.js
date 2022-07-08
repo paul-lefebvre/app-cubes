@@ -23,7 +23,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Space from '../../../components/layout/Space';
 
 //ICON
-import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import {faArrowLeft, faShare} from '@fortawesome/free-solid-svg-icons';
 
 //PACKAGES
 import I18n from '../../../i18n/i18n';
@@ -126,66 +126,123 @@ class Comments extends React.Component {
   }
 
   renderCurrentComments() {
-    return this.state.ressource.comments.map(comment => {
-      return (
-        <View style={styles.comment}>
-          <Space size={3} />
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Avatar />
-            <Space width={12} />
-            <Text style={styles.title}>
-              {comment.owner ? comment.owner.firstname : ''}{' '}
-              {comment.owner ? comment.owner.lastname : ''}
-            </Text>
-            <Space width={3} />
-            <Text
-              style={{
-                backgroundColor: Color.blue,
-                color: 'white',
-                padding: 4,
-                borderRadius: 9,
-              }}>
-              {comment.owner ? comment.owner.pseudo : ''}
-            </Text>
-          </View>
-          <Space size={9} />
-          <Text style={styles.smallText}>{comment.answers}</Text>
-          <Space size={12} />
-          <View
-            style={{flexDirection: 'row', alignItems: 'center', width: '90%'}}>
-            <InputText
-              onValueChange={text => {
-                this.updateNewResponse(text);
-              }}
-              value={this.state.newResponse}
-              style={{height: 50, flex: 0.3}}
-              placeholder={'Répondre...'}
-            />
-            <Space width={9} />
-            <TouchableOpacity
-              onPress={() => this.responseToComment(comment.com_id)}
-              style={{
-                height: 21,
-                width: 21,
-                padding: 21,
-                borderRadius: 60,
-                alignItems: 'center',
-                backgroundColor: Color.darkBlue,
-                alignContent: 'center',
-                justifyContent: 'center',
-              }}>
-              <FontAwesomeIcon size={21} icon={faPaperPlane} color={'white'} />
-            </TouchableOpacity>
-          </View>
+    let responses = [];
+    let comments = this.state.ressource.comments;
 
-          <Space size={9} />
-        </View>
-      );
+    return comments.map(comment => {
+      comments.map(response => {
+        if (
+          response.is_response === 1 &&
+          response.id_response_to_usr === comment.com_id &&
+          response.com_id !== comment.com_id
+        ) {
+          responses.push(response);
+        }
+      });
+      if (comment.is_response === 0) {
+        return (
+          <View style={styles.comment}>
+            <Space size={3} />
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Avatar />
+              <Space width={12} />
+              <Text style={styles.title}>
+                {comment.owner ? comment.owner.firstname : ''}{' '}
+                {comment.owner ? comment.owner.lastname : ''}
+              </Text>
+              <Space width={3} />
+              <Text
+                style={{
+                  backgroundColor: Color.blue,
+                  color: 'white',
+                  padding: 4,
+                  borderRadius: 9,
+                }}>
+                {comment.owner ? comment.owner.pseudo : ''}
+              </Text>
+            </View>
+            <Space size={9} />
+            <Text
+              style={[
+                styles.smallText,
+                {
+                  fontSize: 18,
+                  borderRadius: 6,
+                  paddingVertical: 12,
+                  backgroundColor: Color.colorBackground,
+                },
+              ]}>
+              {comment.answers}
+            </Text>
+            <Space size={12} />
+            {responses.length > 0
+              ? responses.map(response => (
+                  <View
+                    style={{
+                      marginLeft: 21,
+                      paddingHorizontal: 12,
+                      alignItems: 'center',
+                      borderRadius: 12,
+                      backgroundColor: Color.colorBackground,
+                      flexDirection: 'row',
+                    }}>
+                    <FontAwesomeIcon
+                      color={Color.darkBlue}
+                      size={12}
+                      icon={faShare}
+                    />
+                    <Text style={{padding: 3, marginBottom: 3}}>
+                      {response.answers}
+                    </Text>
+                    <Space size={12} />
+                  </View>
+                ))
+              : null}
+            <Space size={12} />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '90%',
+              }}>
+              <InputText
+                onValueChange={text => {
+                  this.updateNewResponse(text);
+                }}
+                value={this.state.newResponse}
+                style={{height: 50, flex: 0.3}}
+                placeholder={'Répondre...'}
+              />
+              <Space width={9} />
+              <TouchableOpacity
+                onPress={() => this.responseToComment(comment.com_id)}
+                style={{
+                  height: 21,
+                  width: 21,
+                  padding: 21,
+                  borderRadius: 60,
+                  alignItems: 'center',
+                  backgroundColor: Color.darkBlue,
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                }}>
+                <FontAwesomeIcon
+                  size={21}
+                  icon={faPaperPlane}
+                  color={'white'}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <Space size={9} />
+          </View>
+        );
+      }
     });
   }
 
   async responseToComment(com_id) {
-    const result = await fetch(API_URL + '/api/comments',{
+    const result = await fetch(API_URL + '/api/comments', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -219,7 +276,7 @@ class Comments extends React.Component {
   updateNewResponse(value) {
     this.setState({newResponse: value});
   }
-  
+
   render() {
     const state = this.state;
     let heightScreen = Dimensions.get('window').height;
